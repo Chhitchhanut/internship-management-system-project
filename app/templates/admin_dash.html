@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+
+<body class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 text-gray-900">
+  <!-- Sidebar -->
+  <aside class="fixed inset-y-0 left-0 hidden md:flex w-64 flex-col border-r bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70">
+    <div class="flex items-center gap-2 h-14 px-4 border-b">
+      <div class="text-2xl">🎓</div>
+      <div class="text-lg font-semibold"><span class="font-bold text-blue-700">Intern</span>Mate</div>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto py-4">
+      <ul class="space-y-1 px-3">
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-overview"><span class="material-symbols-outlined text-[18px]">dashboard</span><span>Dashboard Overview</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-internships"><span class="material-symbols-outlined text-[18px]">work</span><span>Manage Internships</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-approvals"><span class="material-symbols-outlined text-[18px]">approval</span><span>Approve Applications</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-assign"><span class="material-symbols-outlined text-[18px]">task</span><span>Assign Tasks</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-supervisions"><span class="material-symbols-outlined text-[18px]">task</span><span>Internship Supervision</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-reports"><span class="material-symbols-outlined text-[18px]">analytics</span><span>Generate Reports</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-users"><span class="material-symbols-outlined text-[18px]">group</span><span>Manage Users</span></a></li>
+      </ul>
+    </nav>
+
+    <div class="px-4 py-3 border-t flex items-center justify-between gap-3">
+      <p class="text-xs text-gray-500">v1.0 Admin</p>
+      <a href="/" class="inline-flex items-center justify-center h-8 px-3 rounded-md border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 text-xs font-medium">Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main layout container -->
+  <div class="md:pl-64">
+    <!-- Header -->
+    <header class="sticky top-0 z-10 h-14 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b flex items-center justify-between gap-3 px-4 shadow-sm">
+      <div class="flex items-center gap-2">
+        <div class="text-2xl">🛡️</div>
+        <div class="text-lg font-semibold"><span class="font-bold">Admin</span> Panel</div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="text-sm text-gray-700 text-right hidden sm:block">
+          <div class="font-medium">Alex Admin</div>
+          <div class="text-xs text-gray-500">Administrator</div>
+        </div>
+        <div class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-500 text-white shadow" title="Admin Profile">A</div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="p-6 md:p-8 space-y-10 max-w-7xl mx-auto">
+      <!-- Overview -->
+      <section id="section-overview" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-blue-700">Dashboard Overview</h1>
+          <p class="text-sm text-gray-600">System summary and quick insights</p>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-blue-500">
+            <div class="text-sm text-gray-500">Total Students</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">1,234</div>
+          </div>
+          <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-indigo-500">
+            <div class="text-sm text-gray-500">Total Mentors</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">87</div>
+          </div>
+          <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-emerald-500">
+            <div class="text-sm text-gray-500">Active Internships</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">56</div>
+          </div>
+          <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-amber-500">
+            <div class="text-sm text-gray-500">Pending Applications</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">23</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Manage Internships -->
+      <section id="section-internships" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Manage Internships</h2>
+          <p class="text-sm text-gray-600">Create, edit, or archive internship listings</p>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-2 gap-4">
+          <!-- Create internships Form -->
+          <div class="space-y-4">
+            <div class="rounded-xl border bg-white shadow-sm">
+              <div class="flex items-center justify-between border-b px-4 py-3">
+                <h3 class="font-medium">Create New Internship</h3>
+              </div>
+              <form class="p-4 space-y-3 text-sm" action="/admin/internships/create" method="post">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Title</label>
+                    <input type="text" name="title" placeholder="Frontend Developer Intern" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Company</label>
+                    <input type="text" name="company" placeholder="TechCorp" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Department Id</label>
+                    <input type="number" name="department_id" placeholder="1" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Location</label>
+                    <input type="text" name="location" placeholder="Remote" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Mentor ID</label>
+                    <input type="number" name="mentor_id" placeholder="1" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Slot</label>
+                    <input type="number" name="slots" min="0" placeholder="1" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Start</label>
+                    <input type="date" name="start_date" placeholder="" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">End</label>
+                    <input type="date" name="end_date" placeholder="" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-gray-700">Description</label>
+                  <textarea name="description" placeholder="Brief role description" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500"></textarea>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-gray-700">Requirements</label>
+                  <textarea name="requirements" placeholder="e.g., HTML, CSS, JS" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500"></textarea>
+                </div>
+
+                <div class="flex gap-2 pt-1">
+                  <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">add_circle</span>Create Posting
+                  </button>
+                  <button type="reset" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- Update Internships Form -->
+          <div class="rounded-xl border bg-white shadow-sm">
+            <div class="flex items-center justify-between border-b px-4 py-3">
+              <h3 class="font-medium">Update Internship</h3>
+            </div>
+
+            <form id="update-internship-form" class="p-4 space-y-3 text-sm" action="/admin/internships/update" method="post">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                  <label class="text-gray-700">Internship ID</label>
+                  <input type="number" name="internship_id" min="1" placeholder="1" value="{{ edit_internship.id if edit_internship else '' }}" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                </div>
+                <div class="space-y-1">
+                  <label class="text-gray-700">Title</label>
+                  <input type="text" name="title" placeholder="Title" value="{{ (edit_internship and edit_internship.title) or '' }}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                  <label class="text-gray-700">Company</label>
+                  <input type="text" name="company" placeholder="Company" value="{{ (edit_internship and edit_internship.company) or '' }}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                </div>
+                <div class="space-y-1">
+                  <label class="text-gray-700">Location</label>
+                  <input type="text" name="location" placeholder="Location" value="{{ (edit_internship and edit_internship.location) or '' }}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                  <label class="text-gray-700">Status</label>
+                  <select name="status_value"
+                    class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+                    {% set cur = (edit_internship and (edit_internship.status or ''))|lower %}
+                    <option value="open" {% if cur=='open' %}selected{% endif %}>Open</option>
+                    <option value="closed" {% if cur=='closed' %}selected{% endif %}>Closed</option>
+                    <option value="draft" {% if cur=='draft' %}selected{% endif %}>Draft</option>
+                  </select>
+                </div>
+                <div class="space-y-1">
+                  <label class="text-gray-700">Slots</label>
+                  <input type="number" name="slots" min="0" placeholder="0" value="{{ (edit_internship and edit_internship.slots) or '' }}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                  <label class="text-gray-700">Start</label>
+                  <input type="date" name="start_date" value="{% if edit_internship and edit_internship.start_date %}{{ edit_internship.start_date.strftime('%Y-%m-%d') }}{% endif %}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                </div>
+                <div class="space-y-1">
+                  <label class="text-gray-700">End</label>
+                  <input type="date" name="end_date" value="{% if edit_internship and edit_internship.end_date %}{{ edit_internship.end_date.strftime('%Y-%m-%d') }}{% endif %}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-gray-700">Description</label>
+                <textarea name="description" placeholder="Description" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">{{ (edit_internship and edit_internship.description) or '' }}</textarea>
+              </div>
+
+              <div class="space-y-1">
+                <label class="text-gray-700">Requirements</label>
+                <textarea name="requirements" placeholder="New requirements (optional)" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">{{ (edit_internship and edit_internship.requirements) or '' }}</textarea>
+              </div>
+
+              <div class="flex flex-wrap gap-2 pt-1">
+                <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-emerald-600 text-white px-3 py-2 text-sm font-medium hover:bg-emerald-700 shadow-sm">
+                  <span class="material-symbols-outlined text-[18px]">save</span>Save Changes
+                </button>
+                <button type="button" onclick="(function(){var f=document.getElementById('update-internship-form');if(!f)return;f.querySelectorAll('input, textarea, select').forEach(function(el){if(el.type==='hidden')return;if(el.tagName==='SELECT'){el.selectedIndex=-1;}else{el.value='';}});})()" 
+                class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- Show Internships-->
+        <div class="lg:col-span-2">
+          <!-- Search Internships-->
+          <form method="get" action="/admin_dash#section-internships" class="mb-3 flex items-center gap-2">
+            <select name="i_search_field" class="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+              <option value="title" {% if (i_search_field or 'title' )=='title' %}selected{% endif %}>Title</option>
+              <option value="company" {% if i_search_field=='company' %}selected{% endif %}>Company</option>
+              <option value="status" {% if i_search_field=='status' %}selected{% endif %}>Status</option>
+            </select>
+
+            <input type="text" name="i_q" value="{{ i_q or '' }}" placeholder="Search internships" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+            <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 shadow-sm">Search</button>
+            <a href="/admin_dash#section-internships" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</a>
+          </form>
+          <!-- Internships List Table -->
+          <div class="overflow-x-auto rounded-xl border bg-white shadow-sm">
+            <table class="min-w-full text-sm">
+              <thead class="bg-blue-50 text-left text-xs uppercase tracking-wider text-blue-800">
+                <tr>
+                  <th class="px-5 py-3">ID</th>
+                  <th class="px-5 py-3">Title</th>
+                  <th class="px-5 py-3">Company</th>
+                  <th class="px-5 py-3">Start</th>
+                  <th class="px-5 py-3">End</th>
+                  <th class="px-5 py-3">Status</th>
+                  <th class="px-5 py-3">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody class="divide-y odd:bg-white even:bg-gray-50">
+                {% if internships %}
+                {% for i in internships %}
+                <tr class="hover:bg-gray-50">
+                  <td class="px-5 py-3">{{ i.id }}</td>
+                  <td class="px-5 py-3">{{ i.title or '-' }}</td>
+                  <td class="px-5 py-3">{{ i.company or '-' }}</td>
+                  <td class="px-5 py-3">{{ i.start_date or '-' }}</td>
+                  <td class="px-5 py-3">{{ i.end_date or '-' }}</td>
+                  <td class="px-5 py-3">
+                    {% set st = (i.status or 'open')|lower %}
+                    {% if st == 'open' %}
+                    <span class="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">Open</span>
+                    {% elif st == 'closed' %}
+                    <span class="inline-flex items-center rounded-full bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-700">Closed</span>
+                    {% else %}
+                    <span class="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">{{ st|capitalize }}</span>
+                    {% endif %}
+                  </td>
+                  <td class="px-5 py-3">
+                    <div class="flex flex-wrap gap-2">
+                      <a href="/admin_dash?edit_internship={{ i.id }}#section-internships" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-2.5 py-1.5 text-xs font-medium hover:bg-gray-50 shadow-sm">
+                        <span class="material-symbols-outlined text-[16px]">edit</span>Edit
+                      </a>
+                      <form action="/admin/internships/delete" method="post">
+                        <input type="hidden" name="internship_id" value="{{ i.id }}" />
+                        <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-rose-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-rose-700 shadow-sm">
+                          <span class="material-symbols-outlined text-[16px]">delete</span>Delete
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                  <td colspan="6" class="px-5 py-6 text-center text-gray-500">No internships found.</td>
+                </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+      </section>
+
+
+      <!-- Approve Applications -->
+      <section id="section-approvals" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Approve Applications</h2>
+          <p class="text-sm text-gray-600">Review recent applications</p>
+        </div>
+        <!-- Applications List -->
+        <div class="overflow-x-auto rounded-xl border bg-white shadow-sm">
+          <table class="min-w-full text-sm">
+            <thead class="bg-blue-50 text-left text-xs uppercase tracking-wider text-blue-800">
+              <tr>
+                <th class="px-5 py-3">ID</th>
+                <th class="px-5 py-3">Student ID</th>
+                <th class="px-5 py-3">Internship ID</th>
+                <th class="px-5 py-3">CV</th>
+                <th class="px-5 py-3">Status</th>
+                <th class="px-5 py-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y odd:bg-white even:bg-gray-50">
+              {% if applications and applications|length > 0 %}
+              {%for a in applications %}
+              <tr class="hover:bg-gray-50">
+                <td class="px-5 py-3">{{ a.id }}</td>
+                <td class="px-5 py-3">{{ a.student_id }}</td>
+                <td class="px-5 py-3">{{ a.internship_id }}</td>
+                <td target="_blank" class="text-indigo-700 hover:underline"><a href="{{ a.cv_url }}">{{ a.cv_url }}</a></td>
+                <td>
+                  {% set s = (a.status)|lower %}
+                  {% if s == 'approved' %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                    <span class="material-symbols-outlined text-[16px]">check_circle</span>Approved
+                  </span>
+                  {% elif s == 'rejected' %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-700">
+                    <span class="material-symbols-outlined text-[16px]">block</span>Rejected
+                  </span>
+                  {% else %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-orange-200 px-2 py-0.5 text-xs font-medium text-orange-700">
+                    <span class="material-symbols-outlined text-[16px]">draft</span>Pending
+                  </span>
+                  {% endif %}
+                </td>
+                <td class="px-5 py-3">
+                  <div class="flex flex-wrap gap-2">
+                    <button type="button" class="inline-flex items-center gap-1 rounded-md bg-emerald-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-emerald-700 shadow-sm">
+                      <span class="material-symbols-outlined text-[16px]">check_circle</span>Approve
+                    </button>
+                    <button type="button" class="inline-flex items-center gap-1 rounded-md bg-rose-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-rose-700 shadow-sm">
+                      <span class="material-symbols-outlined text-[16px]">cancel</span>Reject</button>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+              {% else %}
+              <tr>
+                <td colspan="6" class="px-5 py-6 text-center text-gray-500">No applications found.</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+
+      <!-- Assign Tasks -->
+      <section id="section-assign" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Assign Tasks</h2>
+          <p class="text-sm text-gray-600">Overview of tasks and assignments</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <!-- Assign Task to Student Form -->
+          <div class="space-y-4 lg:col-span-1">
+            <div class="rounded-xl border bg-white shadow-sm">
+              <div class="flex items-center justify-between border-b px-4 py-3">
+                <h3 class="font-medium">Assign Task to Student</h3>
+              </div>
+              <form class="p-4 space-y-3 text-sm">
+                <div class="space-y-1">
+                  <label class="text-gray-700">Task Title</label>
+                  <input type="text" placeholder="e.g., Design project poster" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Assign to (Student ID)</label>
+                    <input type="text" placeholder="e.g., 102" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Deadline</label>
+                    <input type="date" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+                <div class="space-y-1">
+                  <label class="text-gray-700">Notes</label>
+                  <textarea placeholder="Optional instructions" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500"></textarea>
+                </div>
+                <div class="flex gap-2 pt-1">
+                  <button type="button" class="inline-flex items-center gap-1 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">assignment_add</span>Assign Task
+                  </button>
+                  <button type="reset" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- Assignments Table -->
+          <div class="lg:col-span-2">
+            <div class="rounded-xl border bg-white shadow-sm">
+              <div class="flex items-center justify-between border-b px-4 py-3">
+                <h3 class="font-medium">Assignments</h3>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                  <thead class="bg-blue-50 text-left text-xs uppercase tracking-wider text-blue-800">
+                    <tr>
+                      <th class="px-5 py-3">ID</th>
+                      <th class="px-5 py-3">Title</th>
+                      <th class="px-5 py-3">Assigned To</th>
+                      <th class="px-5 py-3">Mentor</th>
+                      <th class="px-5 py-3">Deadline</th>
+                      <th class="px-5 py-3">Status</th>
+                      <th class="px-5 py-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y odd:bg-white even:bg-gray-50">
+                    <tr class="hover:bg-gray-50">
+                      <td class="px-5 py-3">Task</td>
+                      <td class="px-5 py-3">Design project poster</td>
+                      <td class="px-5 py-3">Student ID 102</td>
+                      <td class="px-5 py-3">—</td>
+                      <td class="px-5 py-3">2025-11-10</td>
+                      <td class="px-5 py-3">
+                        <span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">Assigned</span>
+                      </td>
+                      <td>
+                        <button type="button" class="inline-flex items-center gap-1 rounded-md bg-rose-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-rose-700 shadow-sm">
+                          <span class="material-symbols-outlined text-[16px]">delete</span>Delete
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Internship Supervisions -->
+      <section id="section-supervisions" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Internship Supervisions</h2>
+          <p class="text-sm text-gray-600">Define which mentor supervises which student & internship</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div class="lg:col-span-1 space-y-4">
+            <!-- Create Form -->
+            <div class="rounded-xl border bg-white shadow-sm">
+              <div class="flex items-center justify-between border-b px-4 py-3">
+                <h3 class="font-medium">Create Supervision</h3>
+              </div>
+              <form class="p-4 space-y-3 text-sm" action="/admin/supervisions/create" method="post">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Mentor ID</label>
+                    <input type="number" name="mentor_id" placeholder="e.g., 56" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Student ID</label>
+                    <input type="number" name="student_id" placeholder="e.g., 55" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Internship ID</label>
+                    <input type="number" name="internship_id" placeholder="e.g., 57" required ="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Active</label>
+                    <select name="active" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+                      <option value="true" selected>True</option>
+                      <option value="false">False</option>
+                    </select>
+                  </div>
+                  <div class="md:col-span-2 space-y-1">
+                    <label class="text-gray-700">Scope / Notes</label>
+                    <input type="text" name="notes" placeholder="Optional supervision notes" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+
+                <div class="flex gap-2 pt-1">
+                  <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-indigo-600 text-white px-3 py-2 text-sm font-medium hover:bg-indigo-700 shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">save</span>Save Supervision
+                  </button>
+                  <button type="reset" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</button>
+                </div>
+              </form>
+            </div>
+            <!-- Update Form -->
+            <div class="rounded-xl border bg-white shadow-sm">
+              <div class="flex items-center justify-between border-b px-4 py-3">
+                <h3 class="font-medium">Update Supervision</h3>
+                {% if edit_supervision %}
+                <a href="/admin_dash#section-supervisions" class="text-xs text-blue-600 hover:underline">Cancel</a>
+                {% endif %}
+              </div>
+
+              <form class="p-4 space-y-3 text-sm" action="/admin/supervisions/update" method="post">
+                {% if edit_supervision %}
+                <input type="hidden" name="supervision_id" value="{{ edit_supervision.id }}" />
+                {% endif %}
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {% if not edit_supervision %}
+                  <div class="space-y-1 md:col-span-1">
+                    <label class="text-gray-700">Supervision ID</label>
+                    <input type="number" name="supervision_id" placeholder="e.g., 1" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  {% endif %}
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Mentor ID</label>
+                    <input type="number" name="mentor_id" value="{% if edit_supervision %}{{ edit_supervision.mentor_id }}{% endif %}" placeholder="e.g., 56" required
+                      class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Student ID</label>
+                    <input type="number" name="student_id" value="{% if edit_supervision %}{{ edit_supervision.student_id }}{% endif %}" placeholder="e.g., 55" required
+                      class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Internship ID</label>
+                    <input type="number" name="internship_id" value="{% if edit_supervision %}{{ edit_supervision.internship_id }}{% endif %}" placeholder="e.g., 57" required
+                      class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Active</label>
+                    <select name="active" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+                      <option value="true" {% if edit_supervision and edit_supervision.active %}selected{% endif %}>True</option>
+                      <option value="false" {% if edit_supervision and not edit_supervision.active %}selected{% endif %}>False</option>
+                    </select>
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Scope / Notes</label>
+                    <input type="text" name="notes" value="{% if edit_supervision %}{{ edit_supervision.scope_notes or '' }}{% endif %}" placeholder="Optional supervision notes"
+                      class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+
+                <div class="flex gap-2 pt-1">
+                  <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-emerald-600 text-white px-3 py-2 text-sm font-medium hover:bg-emerald-700 shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">save</span>Update
+                  </button>
+                  {% if edit_supervision %}
+                  <a href="/admin_dash#section-supervisions" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</a>
+                  {% else %}
+                  <button type="reset" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</button>
+                  {% endif %}
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- Listing Supervisions -->
+          <div class="rounded-xl border bg-white shadow-sm lg:col-span-2">
+            <div class="flex items-center justify-between border-b px-4 py-3">
+              <h3 class="font-medium">Current Supervisions</h3>
+            </div>
+            <div class="p-4">
+              <div class="overflow-x-auto rounded-lg border">
+                <table class="min-w-full text-sm">
+                  <thead class="bg-blue-50 text-left text-xs uppercase tracking-wider text-blue-800">
+                    <tr>
+                      <th class="px-4 py-2">Mentor</th>
+                      <th class="px-4 py-2">Student</th>
+                      <th class="px-4 py-2">Internship</th>
+                      <th class="px-4 py-2">Active</th>
+                      <th class="px-4 py-2">Notes</th>
+                      <th class="px-4 py-2">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y odd:bg-white even:bg-gray-50">
+                    {% if supervisions and supervisions|length > 0 %}
+                    {% for sv in supervisions %}
+                    <tr class="hover:bg-gray-50">
+                      <td class="px-4 py-2">{{ sv.mentor_name or ('#' ~ sv.mentor_id) }}</td>
+                      <td class="px-4 py-2">{{ sv.student_name or ('#' ~ sv.student_id) }}</td>
+                      <td class="px-4 py-2">{{ sv.internship_title or ('#' ~ sv.internship_id) }}</td>
+                      <td class="px-4 py-2">
+                        {% if sv.active %}
+                        <span class="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">True</span>
+                        {% else %}
+                        <span class="inline-flex items-center rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-700">False</span>
+                        {% endif %}
+                      </td>
+                      <td class="px-4 py-2">{{ sv.scope_notes or '-' }}</td>
+                      <td class="px-4 py-2">
+                        <div class="flex gap-2">
+                          <a href="/admin_dash?edit={{ sv.id }}#section-supervisions" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-2.5 py-1.5 text-xs font-medium hover:bg-gray-50 shadow-sm">
+                            <span class="material-symbols-outlined text-[16px]">edit</span>Edit
+                          </a>
+                          <button type="button" class="inline-flex items-center gap-1 rounded-md bg-rose-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-rose-700 shadow-sm">
+                            <span class="material-symbols-outlined text-[16px]">delete</span>Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                      <td class="px-4 py-3 text-sm text-gray-500" colspan="6">No supervisions yet.</td>
+                    </tr>
+                    {% endif %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Reports -->
+      <section id="section-reports" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Generate Reports</h2>
+          <p class="text-sm text-gray-600">Export summaries and performance metrics</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <!-- Report Builder Form -->
+          <div class="space-y-4 lg:col-span-1">
+            <div class="rounded-xl border bg-white shadow-sm">
+              <div class="flex items-center justify-between border-b px-4 py-3">
+                <h3 class="font-medium">Report Builder</h3>
+              </div>
+              <form class="p-4 space-y-3 text-sm">
+                <div class="space-y-1">
+                  <label class="text-gray-700">Report Type</label>
+                  <select class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+                    <option>Internship Summary</option>
+                    <option>Students & Internships</option>
+                    <option>Internship Statistics</option>
+                    <option>Task Completion Progress</option>
+                  </select>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">From</label>
+                    <input type="date" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">To</label>
+                    <input type="date" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+                <div class="space-y-1">
+                  <label class="text-gray-700">Format</label>
+                  <div class="flex gap-2">
+                    <label class="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm cursor-pointer">
+                      <input type="radio" name="format" checked class="accent-blue-600" />
+                      <span class="material-symbols-outlined text-[18px] text-rose-600">picture_as_pdf</span>
+                      <span>PDF</span>
+                    </label>
+                    <label class="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm cursor-pointer">
+                      <input type="radio" name="format" class="accent-blue-600" />
+                      <span class="material-symbols-outlined text-[18px] text-emerald-600">table</span>
+                      <span>Excel</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="flex justify-between pt-1">
+                  <button type="button" class="inline-flex items-center gap-1 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">summarize</span> Generate Report
+                  </button>
+                  <button type="button" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">download</span> Export
+                  </button>
+                  <button type="button" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">summarize</span> Preview
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!--  Preview / Summary -->
+          <div class="lg:col-span-2 space-y-4">
+            <div class="rounded-xl border bg-white shadow-sm">
+              <div class="flex items-center justify-between border-b px-4 py-3">
+                <h3 class="font-medium">Preview / Summary</h3>
+              </div>
+              <div class="p-4 text-sm text-gray-700 space-y-3">
+                <div>
+                  <div class="font-medium">Title: Internship Summary Report</div>
+                  <div class="text-xs text-gray-500">Period: 2025-01-01 to 2025-12-31</div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div class="rounded-lg border p-3">
+                    <div class="text-xs text-gray-500">Approved</div>
+                    <div class="text-xl font-semibold text-emerald-700">128</div>
+                  </div>
+                  <div class="rounded-lg border p-3">
+                    <div class="text-xs text-gray-500">Rejected</div>
+                    <div class="text-xl font-semibold text-rose-700">34</div>
+                  </div>
+                  <div class="rounded-lg border p-3">
+                    <div class="text-xs text-gray-500">Ongoing</div>
+                    <div class="text-xl font-semibold text-amber-700">57</div>
+                  </div>
+                </div>
+                <div class="overflow-x-auto rounded-lg border">
+                  <table class="min-w-full text-sm">
+                    <thead class="bg-blue-50 text-left text-xs uppercase tracking-wider text-blue-800">
+                      <tr>
+                        <th class="px-4 py-2">Student</th>
+                        <th class="px-4 py-2">Internship</th>
+                        <th class="px-4 py-2">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y odd:bg-white even:bg-gray-50">
+                      <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-2">Chanthy</td>
+                        <td class="px-4 py-2">Frontend Developer</td>
+                        <td class="px-4 py-2"><span
+                            class="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">Approved</span>
+                        </td>
+                      </tr>
+                      <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-2">Mr. Vannak</td>
+                        <td class="px-4 py-2">Mentoring Program</td>
+                        <td class="px-4 py-2"><span
+                            class="inline-flex items-center rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-700">Inactive</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Manage Users -->
+      <section id="section-users" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Manage Users</h2>
+          <p class="text-sm text-gray-600">Create or manage admin/mentor/student accounts</p>
+        </div>
+
+        <div class="grid grid-cols-3 lg:grid-cols-3 gap-4">
+          <!-- Left Side -->
+          <div class="space-y-4 lg:col-span-1">
+            <!-- Add New User Form -->
+            <div class="rounded-xl border bg-white shadow-sm">
+              <div class="flex items-center justify-between border-b px-4 py-3">
+                <h3 class="font-medium">Add New User</h3>
+              </div>
+              {% if add_user_error %}
+              <div class="px-4 pt-3 text-sm text-rose-700">{{ add_user_error }}</div>
+              {% endif %}
+              <form class="p-4 space-y-3 text-sm" action="/admin/users/create" method="post">
+                <div class="space-y-1">
+                  <label class="text-gray-700">Full Name</label>
+                  <input type="text" name="name" placeholder="e.g., Vannak Nim" value="{{ add_user_prefill.name if add_user_prefill else '' }}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-gray-700">Email</label>
+                  <input type="email" name="email" placeholder="user@gmail.com" value="{{ add_user_prefill.email if add_user_prefill else '' }}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                </div>
+                
+                <div class="space-y-1">
+                  <label class="text-gray-700">Password</label>
+                  <input type="password" name="password" placeholder="******" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-gray-700">Role</label>
+                  <select name="role" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+                    <option value="student" {% if add_user_prefill and (add_user_prefill.role|lower=='student' ) %}selected{% endif %}>Student</option>
+                    <option value="mentor" {% if add_user_prefill and (add_user_prefill.role|lower=='mentor' ) %}selected{% endif %}>Mentor</option>
+                    <option value="admin" {% if add_user_prefill and (add_user_prefill.role|lower=='admin' ) %}selected{% endif %}>Admin</option>
+                  </select>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-gray-700">Department</label>
+                  <select name="department_id" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+                    <option value="">— Select existing —</option>
+                    {% if departments %}
+                    {% for d in departments %}
+                    <option value="{{ d.id }}" {% if add_user_prefill and add_user_prefill.department_id and add_user_prefill.department_id==d.id %}selected{% endif %}>{{ d.name }}</option>
+                    {% endfor %}
+                    {% endif %}
+                  </select>
+                  <p class="text-xs text-gray-500">Or enter a new department name below</p>
+                  <input type="text" name="department_name" placeholder="New department name (optional)" value="{{ add_user_prefill.department_name if add_user_prefill and add_user_prefill.department_name else '' }}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500 mt-1" />
+                </div>
+
+                <div class="flex gap-2 pt-1">
+                  <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">person_add</span>Create User
+                    </button>
+                  <button type="reset" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</button>
+                </div>
+              </form>
+            </div>
+            <!-- Update User Form -->
+            <div class="rounded-xl border bg-white shadow-sm">
+              <div class="flex items-center justify-between border-b px-4 py-3">
+                <h3 class="font-medium">Update Details / Security</h3>
+              </div>
+              <form id="adminUpdateForm" class="p-4 space-y-3 text-sm" action="/admin/users/update" method="post">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">User ID</label>
+                    <input id="upd_user_id" name="user_id" type="number" placeholder="Enter user ID" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Name</label>
+                    <input id="upd_name" name="name" type="text" placeholder="Full name" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Email</label>
+                    <input id="upd_email" name="email" type="email" placeholder="user@example.com" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Password</label>
+                    <input id="upd_password" name="password" type="password" placeholder="Leave blank to keep current" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Role</label>
+                    <select id="upd_role" name="role" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+                      <option value="">— No change —</option>
+                      <option value="student">Student</option>
+                      <option value="mentor">Mentor</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Status</label>
+                    <select id="upd_status_value" name="status_value" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+                      <option value="">— No change —</option>
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                    </select>
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Department ID</label>
+                    <input id="upd_department_id" name="department_id" type="number" placeholder="e.g., 1" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                  <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-emerald-600 text-white px-3 py-2 text-sm font-medium hover:bg-emerald-700 shadow-sm">
+                    <span class="material-symbols-outlined text-[18px]">save</span>Save Changes
+                    </button>
+                  <button type="reset" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- Right Side -->
+          <div class="lg:col-span-2">
+            <!-- Search -->
+            <div>
+              <!-- Search Users by Email, Name, or Role -->
+              <form id="search_email_form" method="get" action="/admin_dash" class="mb-3 flex items-center gap-2">
+                <select id="search_field_select" name="search_field" class="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+                  <option value="email" {% if (search_field or 'email' )=='email' %}selected{% endif %}>Email</option>
+                  <option value="name" {% if search_field=='name' %}selected{% endif %}>Name</option>
+                  <option value="role" {% if search_field=='role' %}selected{% endif %}>Role</option>
+                </select>
+                <input id="search_q_input" type="text" name="q" value="{{ q or search_email or '' }}" placeholder="Search query" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                <input type="hidden" name="page_size" value="{{ page_size or 10 }}" />
+                <button id="search_email_btn" type="submit" class="inline-flex items-center gap-1 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 shadow-sm">Search</button>
+                <a id="search_email_clear" href="/admin_dash" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</a>
+              </form>
+              <!-- Search Results Table -->
+              {% if q or search_email %}
+              {% if search_results and search_results|length > 0 %}
+              <div class="overflow-x-auto rounded-xl border bg-white shadow-sm mb-3">
+                <table class="min-w-full text-sm">
+                  <thead class="bg-blue-50 text-left text-xs uppercase tracking-wider text-blue-800">
+                    <tr>
+                      <th class="px-5 py-3">User ID</th>
+                      <th class="px-5 py-3">Name</th>
+                      <th class="px-5 py-3">Email</th>
+                      <th class="px-5 py-3">Role</th>
+                      <th class="px-5 py-3">Status</th>
+                      <th class="px-5 py-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y odd:bg-white even:bg-gray-50">
+                    {% for u in search_results %}
+                    <tr class="hover:bg-gray-50">
+                      <td class="px-5 py-3">{{ u.id }}</td>
+                      <td class="px-5 py-3">{{ u.name }}</td>
+                      <td class="px-5 py-3">{{ u.email }}</td>
+                      <td class="px-5 py-3">{{ u.role }}</td>
+                      <td class="px-5 py-3">
+                        <span class="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">{{ u.status }}</span>
+                      </td>
+                      <td class="px-5 py-3">
+                        <div class="flex flex-wrap gap-2">
+                          <button class="edit-user-btn inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-2.5 py-1.5 text-xs font-medium hover:bg-gray-50 shadow-sm" type="button" data-id="{{ u.id }}" data-name="{{ u.name }}" data-email="{{ u.email }}" data-role="{{ u.role }}" data-status="{{ u.status }}">
+                            <span class="material-symbols-outlined text-[16px]">edit</span>Edit
+                          </button>
+                          <form action="/admin/users/delete" method="post" onsubmit="return confirm('Delete this user?')">
+                            <input type="hidden" name="user_id" value="{{ u.id }}" />
+                            <button class="inline-flex items-center gap-1 rounded-md bg-rose-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-rose-700 shadow-sm" type="submit">
+                              <spanclass="material-symbols-outlined text-[16px]">delete</span>Delete
+                            </button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <div class="flex items-center justify-between text-sm text-gray-600 mb-6">
+                <div>Total: {{ search_total }}</div>
+                <div class="flex items-center gap-2">
+                  {% set prev_page = (page - 1) if page and page > 1 else None %}
+                  {% set next_page = (page + 1) if search_total and (page * page_size) < search_total else None %} 
+                    <a data-keep-hash="true" 
+                      href="/admin_dash?search_field={{ (search_field or 'email') | urlencode }}&q={{ (q or search_email or '') | urlencode }}&page={{ prev_page or 1 }}&page_size={{ page_size }}" 
+                      class="inline-flex items-center gap-1 rounded-md border border-gray-200 px-2.5 py-1.5 {{ 'text-gray-700 bg-white hover:bg-gray-50' if prev_page else 'text-gray-400 bg-gray-50 cursor-not-allowed' }}"> Prev
+                    </a>
+                    <span>Page {{ page }}{% if search_total %} / {{ ((search_total - 1) // page_size) + 1 }}{% endif %}</span>
+                    <a data-keep-hash="true"
+                      href="/admin_dash?search_field={{ (search_field or 'email') | urlencode }}&q={{ (q or search_email or '') | urlencode }}&page={{ next_page or page }}&page_size={{ page_size }}"
+                      class="inline-flex items-center gap-1 rounded-md border border-gray-200 px-2.5 py-1.5 {{ 'text-gray-700 bg-white hover:bg-gray-50' if next_page else 'text-gray-400 bg-gray-50 cursor-not-allowed' }}">Next
+                    </a>
+                </div>
+              </div>
+              {% else %}
+              <div class="mb-6 text-sm text-gray-600">No users found for "{{ q or search_email }}"</div>
+              {% endif %}
+              {% endif %}
+            </div>
+            <!-- Show Users Table -->
+            <div class="lg:col-span-2 mt-3">
+              <div class="overflow-x-auto rounded-xl border bg-white shadow-sm">
+                <table class="min-w-full text-sm">
+                  <thead class="bg-blue-50 text-left text-xs uppercase tracking-wider text-blue-800">
+                    <tr>
+                      <th class="px-5 py-3">User ID</th>
+                      <th class="px-5 py-3">Name</th>
+                      <th class="px-5 py-3">Email</th>
+                      <th class="px-5 py-3">Role</th>
+                      <th class="px-5 py-3">Status</th>
+                      <th class="px-5 py-3">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y odd:bg-white even:bg-gray-50">
+                    {% for user in users %}
+                    <tr id="user-row-{{ user.id }}" class="hover:bg-gray-50">
+                      <td class="px-5 py-3">{{ user.id }}</td>
+                      <td class="px-5 py-3">{{ user.name }}</td>
+                      <td class="px-5 py-3">{{ user.email }}</td>
+                      <td class="px-5 py-3">{{ user.role }}</td>
+                      <td class="px-5 py-3">
+                        <span class="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">{{ user.status }}</span>
+                      </td>
+                      <td class="px-5 py-3">
+                        <div class="flex flex-wrap gap-2">
+                          <button class="edit-user-btn inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-2.5 py-1.5 text-xs font-medium hover:bg-gray-50 shadow-sm" type="button" data-id="{{ user.id }}" data-name="{{ user.name }}" data-email="{{ user.email }}" data-role="{{ user.role }}" data-status="{{ user.status }}">
+                            <span class="material-symbols-outlined text-[16px]">edit</span>Edit
+                          </button>
+                          <form action="/admin/users/delete" method="post" onsubmit="return confirm('Delete this user?')">
+                            <input type="hidden" name="user_id" value="{{ user.id }}" />
+                            <button class="inline-flex items-center gap-1 rounded-md bg-rose-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-rose-700 shadow-sm" type="submit">
+                              <span class="material-symbols-outlined text-[16px]">delete</span>Delete
+                            </button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</body>
+<!-- Page data holder for JS -->
+<div id="page-data" data-highlight-user-id="{{ highlight_user_id or '' }}" style="display:none"></div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('adminUpdateForm');
+    const idInput = document.getElementById('upd_user_id');
+    const nameInput = document.getElementById('upd_name');
+    const emailInput = document.getElementById('upd_email');
+    const roleSelect = document.getElementById('upd_role');
+    const statusSelect = document.getElementById('upd_status_value');
+    const depInput = document.getElementById('upd_department_id');
+
+    // Trim search email before submit so browser email validation passes on click or Enter
+    const searchForm = document.getElementById('search_email_form');
+    const searchInput = document.getElementById('search_q_input');
+    if (searchForm && searchInput) {
+      searchForm.addEventListener('submit', () => {
+        if (typeof searchInput.value === 'string') {
+          searchInput.value = searchInput.value.trim();
+        }
+        // Keep current section after reload; default to Users section if none
+        const currentHash = window.location.hash;
+        searchForm.action = '/admin_dash' + (currentHash || '#section-users');
+      });
+    }
+
+    // Make Clear preserve the current section
+    const clearLink = document.getElementById('search_email_clear');
+    if (clearLink) {
+      clearLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const currentHash = window.location.hash || '#section-users';
+        window.location.href = '/admin_dash' + currentHash;
+      });
+    }
+
+    // Preserve section hash for pagination links
+    document.querySelectorAll('a[data-keep-hash="true"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const currentHash = window.location.hash || '#section-users';
+        const url = new URL(a.getAttribute('href'), window.location.origin);
+        window.location.href = url.pathname + url.search + currentHash;
+      });
+    });
+
+    document.querySelectorAll('.edit-user-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const name = btn.getAttribute('data-name') || '';
+        const email = btn.getAttribute('data-email') || '';
+        const role = (btn.getAttribute('data-role') || '').toLowerCase();
+        const status = (btn.getAttribute('data-status') || '').toLowerCase();
+
+        if (idInput) idInput.value = id || '';
+        if (nameInput) nameInput.value = name;
+        if (emailInput) emailInput.value = email;
+        if (roleSelect) roleSelect.value = ['student', 'mentor', 'admin'].includes(role) ? role : '';
+        if (statusSelect) statusSelect.value = ['active', 'inactive'].includes(status) ? status : '';
+        if (depInput) depInput.value = '';
+
+        // Scroll to form
+        form?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Scroll to and highlight a user row if highlight_user_id is provided
+    const dataEl = document.getElementById('page-data');
+    const highlightIdStr = dataEl?.dataset.highlightUserId || '';
+    const highlightId = highlightIdStr ? parseInt(highlightIdStr, 10) : null;
+    if (highlightId && !Number.isNaN(highlightId)) {
+      const row = document.getElementById(`user-row-${highlightId}`);
+      if (row) {
+        row.classList.add('ring', 'ring-amber-400', 'ring-offset-2');
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => row.classList.remove('ring', 'ring-amber-400', 'ring-offset-2'), 3500);
+      }
+    }
+  });
+</script>
+
+</html>

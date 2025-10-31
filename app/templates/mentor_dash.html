@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mentor Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="../../static/css/mentor.css">
+</head>
+<body class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 text-gray-900">
+  <!-- Sidebar -->
+  <aside class="fixed inset-y-0 left-0 hidden md:flex w-64 flex-col border-r bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70">
+    <div class="flex items-center gap-2 h-14 px-4 border-b">
+      <div class="text-2xl">🎓</div>
+      <div class="text-lg font-semibold"><span class="font-bold text-blue-700">Intern</span>Mate</div>
+    </div>
+    <nav class="flex-1 overflow-y-auto py-4">
+      <ul class="space-y-1 px-3">
+        <li><a href="#overview" class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"><span class="material-symbols-outlined text-[18px]">dashboard</span><span>Dashboard Overview</span></a></li>
+        <li><a href="#assigned" class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"><span class="material-symbols-outlined text-[18px]">group</span><span>Assigned Students</span></a></li>
+        <li><a href="#assign-tasks" class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"><span class="material-symbols-outlined text-[18px]">task</span><span>Assign Tasks</span></a></li>
+        <li><a href="#review" class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"><span class="material-symbols-outlined text-[18px]">rule</span><span>Review Tasks</span></a></li>
+        <li><a href="#feedback" class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"><span class="material-symbols-outlined text-[18px]">rate_review</span><span>Provide Feedback</span></a></li>
+        <li><a href="#profile" class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition"><span class="material-symbols-outlined text-[18px]">person</span><span>Profile</span></a></li>
+      </ul>
+    </nav>
+    <div class="px-4 py-3 border-t flex items-center justify-between gap-3">
+      <div class="text-xs text-gray-500">v1.0 Mentor</div>
+      <a href="/" class="inline-flex items-center justify-center h-8 px-3 rounded-md border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 text-xs font-medium">Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main container -->
+  <div class="md:pl-64">
+    <!-- Header -->
+    <header class="sticky top-0 z-10 h-14 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b flex items-center justify-between gap-3 px-4 shadow-sm">
+      <div class="flex items-center gap-2">
+        <div class="text-2xl">🛡️</div>
+        <div class="text-lg font-semibold"><span class="font-bold">Mentor</span> Panel</div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="text-sm text-gray-700 text-right hidden sm:block">
+          <div class="font-medium">{{ (user.name if user and user.name else 'Mentor') }}</div>
+          <div class="text-xs text-gray-500">Mentor</div>
+        </div>
+        {% set initial = (user.name[0]|upper if user and user.name) or 'M' %}
+        <div class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-500 text-white shadow" title="Mentor Profile">{{ initial }}</div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="p-6 md:p-8 space-y-10 max-w-7xl mx-auto">
+      <!-- 1. Overview -->
+      <section id="overview" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-blue-700">Dashboard Overview</h1>
+          <p class="text-sm text-gray-600">Summary of your mentoring activity</p>
+        </div>
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-blue-500">
+            <div class="text-sm text-gray-500">Total Assigned Students</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">12</div>
+          </div>
+          <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-amber-500">
+            <div class="text-sm text-gray-500">Pending Tasks</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">7</div>
+          </div>
+          <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-emerald-500">
+            <div class="text-sm text-gray-500">Completed Tasks</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">34</div>
+          </div>
+          <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-indigo-500">
+            <div class="text-sm text-gray-500">Feedback Requests</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">3</div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- 2. Assigned Students -->
+      <section id="assigned" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Assigned Students</h2>
+          <p class="text-sm text-gray-600">Students under your supervision</p>
+        </div>
+        <div class="overflow-x-auto rounded-xl border bg-white shadow-sm">
+          <table class="min-w-full text-sm">
+            <thead class="bg-blue-50 text-left text-xs uppercase tracking-wider text-blue-800">
+              <tr>
+                <th class="px-5 py-3">Student</th>
+                <th class="px-5 py-3">Internship</th>
+                <th class="px-5 py-3">Duration</th>
+                <th class="px-5 py-3">Progress</th>
+                <th class="px-5 py-3">Contact</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y odd:bg-white even:bg-gray-50">
+              <!-- Sokha -->
+              <tr class="hover:bg-gray-50">
+                <td class="px-5 py-3">
+                  <div class="font-medium">Sokha</div>
+                  <div class="text-xs text-gray-500">Department: Marketing</div>
+                </td>
+                <td class="px-5 py-3">
+                  <div class="font-medium">Frontend Developer Intern</div>
+                  <div class="text-xs text-gray-500">Company: TechCorp</div>
+                </td>
+                <td class="px-5 py-3">3 months</td>
+                <td class="px-5 py-3">
+                  <div class="w-40 h-2 bg-gray-200 rounded">
+                    <div class="h-2 w-1/2 bg-amber-500 rounded"></div>
+                  </div>
+                  <span class="text-xs text-gray-500">50% (Tasks: 5/10)</span>
+                </td>
+                <td class="px-5 py-3"><a href="#" class="text-blue-600 hover:underline">sokha@example.com</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+
+      <!-- 3. Assign Tasks (mentor to students) -->
+      <section id="assign-tasks" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Assign Tasks</h2>
+          <p class="text-sm text-gray-600">Create tasks for your assigned students</p>
+        </div>
+        <div class="rounded-xl border bg-white shadow-sm">
+          <div class="flex items-center justify-between border-b px-4 py-3">
+            <h3 class="font-medium">New Task</h3>
+          </div>
+          <form class="p-4 space-y-3 text-sm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div class="space-y-1">
+                <label class="text-gray-700">Task Name</label>
+                <input type="text" placeholder="Weekly progress report"
+                  class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+              </div>
+              <div class="space-y-1">
+                <label class="text-gray-700">Assign To (Student)</label>
+                <input type="text" placeholder="e.g., Sreyleak"
+                  class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="space-y-1 md:col-span-1">
+                <label class="text-gray-700">Deadline</label>
+                <input type="date" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+              </div>
+              <div class="space-y-1 md:col-span-2">
+                <label class="text-gray-700">Notes</label>
+                <input type="text" placeholder="Optional instructions"
+                  class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+              </div>
+            </div>
+            <div class="flex gap-2 pt-1">
+              <button type="button" class="inline-flex items-center gap-1 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 shadow-sm"><span class="material-symbols-outlined text-[18px]">add_task</span>Assign Task</button>
+              <button type="reset" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</button>
+            </div>
+            <p class="text-xs text-gray-500">Pure HTML placeholder, wire to backend later.</p>
+          </form>
+        </div>
+      </section>
+
+
+      <!-- 4. Review Tasks -->
+      <section id="review" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Review Tasks</h2>
+          <p class="text-sm text-gray-600">Review submissions awaiting your approval</p>
+        </div>
+        <div class="overflow-x-auto rounded-xl border bg-white shadow-sm">
+          <table class="min-w-full text-sm">
+            <thead class="bg-blue-50 text-left text-xs uppercase tracking-wider text-blue-800">
+              <tr>
+                <th class="px-5 py-3">Task Name</th>
+                <th class="px-5 py-3">Student</th>
+                <th class="px-5 py-3">Deadline</th>
+                <th class="px-5 py-3">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y odd:bg-white even:bg-gray-50">
+              <tr class="hover:bg-gray-50">
+                <td class="px-5 py-3">Weekly progress report</td>
+                <td class="px-5 py-3">Sreyleak</td>
+                <td class="px-5 py-3">2025-10-31</td>
+                <td class="px-5 py-3"><span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">Pending Review</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. Provide Feedback -->
+      <section id="feedback" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Provide Feedback</h2>
+          <p class="text-sm text-gray-600">Share comments and ratings with your students</p>
+        </div>
+        <div class="rounded-xl border bg-white shadow-sm">
+          <div class="flex items-center justify-between border-b px-4 py-3">
+            <h3 class="font-medium">Feedback Form</h3>
+          </div>
+          <form class="p-4 space-y-3 text-sm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div class="space-y-1">
+                <label class="text-gray-700">Student</label>
+                <input type="text" placeholder="e.g., Sreyleak"
+                  class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+              </div>
+              <div class="space-y-1">
+                <label class="text-gray-700">Task / Topic</label>
+                <input type="text" placeholder="Weekly progress report"
+                  class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+              </div>
+            </div>
+            <div class="space-y-1">
+              <label class="text-gray-700">Comments</label>
+              <textarea placeholder="Comments on submitted task..."
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500"></textarea>
+            </div>
+            <div class="space-y-1">
+              <label class="text-gray-700">Suggestions for Improvement</label>
+              <textarea placeholder="Actionable suggestions..."
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500"></textarea>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="space-y-1">
+                <label class="text-gray-700">Rating</label>
+                <select class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+                  <option>Excellent</option>
+                  <option>Good</option>
+                  <option>Needs Improvement</option>
+                </select>
+              </div>
+              <div class="space-y-1 md:col-span-2">
+                <label class="text-gray-700">Next Steps</label>
+                <input type="text" placeholder="Plan for next week"
+                  class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+              </div>
+            </div>
+            <div class="flex gap-2 pt-1">
+              <button type="button" class="inline-flex items-center gap-1 rounded-md bg-indigo-600 text-white px-3 py-2 text-sm font-medium hover:bg-indigo-700 shadow-sm"><span class="material-symbols-outlined text-[18px]">rate_review</span>Submit Feedback</button>
+              <button type="reset" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</button>
+            </div>
+            <p class="text-xs text-gray-500">This is a static UI; connect to backend later.</p>
+          </form>
+        </div>
+        <!-- Recent Feedback -->
+        <div class="rounded-xl border bg-white shadow-sm">
+          <div class="flex items-center justify-between border-b px-4 py-3">
+            <h3 class="font-medium">Recent Feedback</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+              <thead class="bg-blue-50 text-left text-xs uppercase tracking-wider text-blue-800">
+                <tr>
+                  <th class="px-5 py-3">Student</th>
+                  <th class="px-5 py-3">Task</th>
+                  <th class="px-5 py-3">Rating</th>
+                  <th class="px-5 py-3">Comment</th>
+                  <th class="px-5 py-3">Date</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y odd:bg-white even:bg-gray-50">
+                <tr class="hover:bg-gray-50">
+                  <td class="px-5 py-3">Sokha</td>
+                  <td class="px-5 py-3">Homepage design</td>
+                  <td class="px-5 py-3"><span class="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">Good</span></td>
+                  <td class="px-5 py-3">Great work on the homepage design. Next week, focus on mobile responsiveness.</td>
+                  <td class="px-5 py-3">2025-10-24</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      
+      <!-- 6. Profile -->
+      <section id="profile" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Profile</h2>
+          <p class="text-sm text-gray-600">View and edit your profile information</p>
+        </div>
+
+        <form class="space-y-4" action="/mentor/profile/update" method="post" enctype="multipart/form-data">
+          {% if user and user.id %}
+          <input type="hidden" name="mentor_id" value="{{ user.id }}" />
+          {% endif %}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">User ID</label>
+              <input type="text" value="{{ user.id if user and user.id }}" readonly
+                class="w-full rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-600" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">Name</label>
+              <input type="text" name="name" placeholder="Your name" value="{{ user.name if user and user.name }}"
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">Email</label>
+              <input type="email" name="email" placeholder="you@example.com" value="{{ user.email if user and user.email }}"
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">Phone</label>
+              <input type="tel" name="phone" placeholder="(+66) 000-0000" value="{{ user.phone if user and user.phone }}"
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">Password</label>
+              <input type="password" name="password" placeholder="Leave blank to keep current password"
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">Department</label>
+              <select name="department_id"
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500">
+                <option value="">Select department</option>
+                {% if departments %}
+                  {% for d in departments %}
+                    <option value="{{ d.id }}" {% if user and user.department_id and d.id == user.department_id %}selected{% endif %}>{{ d.name }}</option>
+                  {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="text-sm text-gray-700">Photo</label>
+                {% if user and user.profile_photo_url %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                    <span class="material-symbols-outlined text-[16px]">check_circle</span>Uploaded
+                  </span>
+                {% else %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700">
+                    <span class="material-symbols-outlined text-[16px]">info</span>Not uploaded
+                  </span>
+                {% endif %}
+              </div>
+              {% if user and user.profile_photo_url %}
+                <div class="flex items-center gap-3">
+                  <img src="{{ user.profile_photo_url }}" alt="Profile photo" class="h-12 w-12 rounded-full object-cover border" />
+                  <a href="{{ user.profile_photo_url }}" target="_blank" class="text-xs text-blue-700 hover:underline">View</a>
+                </div>
+              {% endif %}
+              <div class="flex items-center gap-2">
+                <label for="mentorProfilePhoto"
+                  class="inline-flex items-center gap-2 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 cursor-pointer shadow-sm">
+                  <span class="material-symbols-outlined text-[18px]">upload</span>
+                  <span>Choose file</span>
+                </label>
+                <span id="mentorProfilePhotoName" class="text-xs text-gray-500 truncate" aria-live="polite">No file chosen</span>
+              </div>
+              <input type="file" id="mentorProfilePhoto" name="photo" accept="image/*" class="hidden" />
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <button type="submit" class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-indigo-500 px-4 py-2 text-sm font-medium text-white hover:from-blue-700 hover:to-indigo-600 shadow-sm transition">Save</button>
+            <a href="#overview" class="inline-flex items-center justify-center rounded-md border border-blue-200 text-blue-700 bg-white px-4 py-2 text-sm font-medium hover:bg-blue-50 shadow-sm transition">Cancel</a>
+          </div>
+        </form>
+      </section>
+
+    </main>
+  </div>
+</body>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const mPhotoInput = document.getElementById('mentorProfilePhoto');
+    const mPhotoName = document.getElementById('mentorProfilePhotoName');
+    if (mPhotoInput && mPhotoName) {
+      mPhotoInput.addEventListener('change', function () {
+        if (mPhotoInput.files && mPhotoInput.files.length > 0) {
+          mPhotoName.textContent = mPhotoInput.files[0].name;
+        } else {
+          mPhotoName.textContent = 'No file chosen';
+        }
+      });
+    }
+  });
+</script>
+</html>

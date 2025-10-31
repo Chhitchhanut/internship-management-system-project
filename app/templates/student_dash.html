@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Student Internship Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/student.css">
+</head>
+
+<body class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 text-gray-900">
+  <!-- Sidebar Navigation -->
+  <aside
+    class="fixed inset-y-0 left-0 hidden md:flex w-64 flex-col border-r bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70">
+    <div class="flex items-center gap-2 h-14 px-4 border-b">
+      <div class="text-2xl">🎓</div>
+      <div class="text-lg font-semibold"><span class="font-bold text-blue-700">Intern</span>Mate</div>
+    </div>
+    <nav class="flex-1 overflow-y-auto py-4">
+      <ul class="space-y-1 px-3">
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-overview"><span class="material-symbols-outlined text-[18px]">dashboard</span><span>Overview</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-listings"><span class="material-symbols-outlined text-[18px]">work</span><span>Internship Listings</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-applications"><span class="material-symbols-outlined text-[18px]">assignment_turned_in</span><span>My Applications</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-tasks"><span class="material-symbols-outlined text-[18px]">check_circle</span><span>My Tasks</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-feedback"><span class="material-symbols-outlined text-[18px]">rate_review</span><span>Feedback & Evaluation</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-profile"><span class="material-symbols-outlined text-[18px]">person</span><span>Profile</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-notifications"><span class="material-symbols-outlined text-[18px]">notifications</span><span>Notifications</span></a></li>
+        <li><a class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition" href="#section-reports"><span class="material-symbols-outlined text-[18px]">description</span><span>Reports / Certificates</span></a></li>
+      </ul>
+    </nav>
+    <div class="px-4 py-3 border-t flex items-center justify-between gap-3">
+      <div class="text-xs text-gray-500">v1.0 Demo</div>
+      <a href="/" class="inline-flex items-center justify-center h-8 px-3 rounded-md border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 text-xs font-medium">Logout</a>
+    </div>
+  </aside>
+
+
+  <!-- Main layout container -->
+  <div class="md:pl-64">
+    <!-- header -->
+    <header class="sticky top-0 z-10 h-14 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b flex items-center justify-between gap-3 px-4 shadow-sm">
+      <form class="flex items-center gap-2" role="search" aria-label="Global search">
+        <div class="relative w-64 max-w-full">
+          <input id="studentSearch" type="search" placeholder="Search internships, tasks, or companies..." class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500" />
+        </div>
+        <button type="submit" aria-label="Search" class="inline-flex items-center justify-center h-9 px-3 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/60 shadow-sm">
+          <span class="sr-only">Search</span>
+          <span class="material-symbols-outlined text-[18px]">search</span>
+        </button>
+      </form>
+      <div class="flex items-center gap-3">
+        <div class="text-sm text-gray-700 text-right hidden sm:block">
+          <div class="font-medium">{{ (user.name if user and user.name else 'Student') }}</div>
+          <div class="text-xs text-gray-500">Student</div>
+        </div>
+        {% set initial = (user.name[0]|upper if user and user.name) or 'S' %}
+        <div class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-500 text-white shadow" title="Student Profile">{{ initial }}</div>
+      </div>
+    </header>
+    <!-- Content -->
+    <main class="p-6 md:p-8 space-y-10 max-w-7xl mx-auto">
+
+
+      <!-- 1. Dashboard Overview -->
+      <section id="section-overview" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-blue-700">Dashboard Overview</h1>
+          <p class="text-sm text-gray-600">Quick summary of your internship activities</p>
+        </div>
+        <!-- Summary -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-indigo-500">
+            <div class="text-sm text-gray-500">Total Applied</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight" id="statTotalApps">{{ total_applied or 0 }}</div>
+          </div>
+          <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-amber-500">
+            <div class="text-sm text-gray-500">Pending</div>
+            <div class="mt-2 text-3xl font-semibold text-amber-600" id="statPending">{{ total_pending or 0 }}</div>
+          </div>
+          <div
+            class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-emerald-500">
+            <div class="text-sm text-gray-500">Approved</div>
+            <div class="mt-2 text-3xl font-semibold text-emerald-600" id="statApproved">{{ total_approved or 0 }}</div>
+          </div>
+          <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-rose-500">
+            <div class="text-sm text-gray-500">Rejected</div>
+            <div class="mt-2 text-3xl font-semibold text-rose-600" id="statRejected">{{ total_rejected or 0 }}</div>
+          </div>
+        </div>
+        <!-- Active Internship & Task Progress -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <!-- Active Internship -->
+          <div class="rounded-xl border bg-white shadow-sm">
+            <div class="flex items-center justify-between border-b px-4 py-3">
+              <h3 class="font-medium">Active Internship</h3>
+            </div>
+            <div id="activeInternship" class="p-4 text-sm text-gray-700">
+              {% if active_internship %}
+              <div class="space-y-2">
+                <div class="text-base font-medium text-gray-900">{{ active_internship.title }}</div>
+                <div class="text-sm text-gray-600">Company: {{ active_internship.company }}</div>
+                {% if active_internship.supervisor %}
+                <div class="text-sm text-gray-600">Supervisor: {{ active_internship.supervisor }}</div>
+                {% endif %}
+                {% if active_internship.location %}
+                <div class="text-sm text-gray-600">Location: {{ active_internship.location }}</div>
+                {% endif %}
+                <div class="text-sm text-gray-600">Duration: {{ active_internship.start_date }} → {{ active_internship.end_date }}</div>
+              </div>
+              {% else %}
+              <p>No active internship currently.</p>
+              {% endif %}
+            </div>
+          </div>
+          <!-- Task Progress -->
+          <div class="rounded-xl border bg-white shadow-sm">
+            <div class="flex items-center justify-between border-b px-4 py-3">
+              <h3 class="font-medium">Task Progress</h3>
+            </div>
+            <div id="taskProgress" class="p-4">
+              <div class="h-2 w-full rounded-full bg-gray-200">
+                <div id="taskProgressBar" class="h-2 rounded-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 transition-all" style="width:0%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+              </div>
+              <div class="mt-2 text-xs text-gray-600" id="taskProgressLabel">0 of 0 tasks completed</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- 2. Internship Listings -->
+      <section id="section-listings" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-blue-700">Internship Listings</h1>
+          <p class="text-sm text-gray-600">Browse and apply to opportunities</p>
+        </div>
+        <!-- Search & Filters -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <input id="filterQuery" type="search" placeholder="Search title, company, or field" class="w-full rounded-md border border-indigo-200 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500" />
+          <select id="filterLocation" class="w-full rounded-md border border-indigo-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500">
+            <option value="">All Locations</option>
+          </select>
+          <select id="filterField" class="w-full rounded-md border border-indigo-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500">
+            <option value="">All Fields</option>
+          </select>
+        </div>
+        <!-- Internship Listings -->
+        <div id="listingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {% if internships and internships|length > 0 %}
+            {% for listing in internships %}
+            <article class="group rounded-xl border bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition overflow-hidden">
+              <div class="flex items-center justify-between border-b px-4 py-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-sky-500 text-white text-sm font-semibold shadow">
+                    <span class="material-symbols-outlined text-[18px]">corporate_fare</span>
+                  </div>
+                  <div class="text-sm font-medium text-gray-800">{{ listing.company }}</div>
+                </div>
+                {% set s = (listing.status or 'draft')|lower %}
+                {% if s == 'open' %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700"><span class="material-symbols-outlined text-[16px]">check_circle</span>Open</span>
+                {% elif s == 'closed' %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-700"><span class="material-symbols-outlined text-[16px]">block</span>Closed</span>
+                {% else %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-700"><span class="material-symbols-outlined text-[16px]">draft</span>Draft</span>
+                {% endif %}
+              </div>
+              <div class="p-4 space-y-3">
+                <h3 class="text-base font-semibold tracking-tight group-hover:text-indigo-700">{{ listing.title }}</h3>
+                <div class="flex flex-wrap gap-3 text-xs text-gray-600">
+                  {% if listing.location %}
+                  <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">location_on</span>{{ listing.location }}</span>
+                  {% endif %}
+                  <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">calendar_month</span>{{ listing.start_date }} → {{ listing.end_date }}</span>
+                  <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">group</span>Slots: {{ listing.slots }}</span>
+                </div>
+                {% if listing.description %}
+                <p class="text-sm text-gray-700 line-clamp-3">{{ listing.description }}</p>
+                {% endif %}
+                <div class="pt-2">
+                  {% set has_applied = (applied_ids is defined) and (listing.id in applied_ids) %}
+                  {% if has_applied %}
+                  <button disabled class="w-full inline-flex items-center justify-center gap-1 rounded-md bg-gray-300 text-gray-600 px-3 py-2 text-sm font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[18px]">send</span>Applied</button>
+                  {% elif s == 'closed' %}
+                  <button disabled class="w-full inline-flex items-center justify-center gap-1 rounded-md bg-gray-300 text-gray-600 px-3 py-2 text-sm font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[18px]">hourglass_empty</span>Applications Closed</button>
+                  {% else %}
+                  <form action="/student/apply" method="post">
+                    <input type="hidden" name="internship_id" value="{{ listing.id }}" />
+                    {% if user and user.id %}
+                    <input type="hidden" name="student_id" value="{{ user.id }}" />
+                    <button class="w-full inline-flex items-center justify-center gap-1 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 text-sm font-medium"><span class="material-symbols-outlined text-[18px]">send</span>Apply</button>
+                    {% else %}
+                    <button disabled class="w-full inline-flex items-center justify-center gap-1 rounded-md bg-gray-300 text-gray-600 px-3 py-2 text-sm font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[18px]">lock</span>Login required</button>
+                    {% endif %}
+                  </form>
+                  {% endif %}
+                </div>
+              </div>
+            </article>
+            {% endfor %}
+          {% else %}
+            <div class="col-span-full">
+              <div class="rounded-xl border bg-white p-8 text-center text-sm text-gray-600">
+                <div class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-indigo-50 text-indigo-600 mb-3">
+                  <span class="material-symbols-outlined">work</span>No internships available yet. Please check back later.
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </section>
+
+
+      <!-- 3. My Applications -->
+      <section id="section-applications" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-blue-700">My Applications</h1>
+          <p class="text-sm text-gray-600">Track status of your internship applications</p>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border bg-white shadow-sm">
+          <table class="min-w-full text-sm">
+            <thead class="bg-indigo-50 text-left text-xs uppercase tracking-wider text-indigo-800">
+              <tr>
+                <th class="px-5 py-3">Internship</th>
+                <th class="px-5 py-3">Company</th>
+                <th class="px-5 py-3">Date Applied</th>
+                <th class="px-5 py-3">Status</th>
+                <th class="px-5 py-3">Action</th>
+              </tr>
+            </thead>
+            <tbody id="applicationsTable" class="divide-y odd:bg-white even:bg-gray-50">
+              {% if applications and applications|length > 0 %}
+                {% for application in applications %}
+                {% set st = (application.status or 'pending')|lower %}
+                <tr class="hover:bg-gray-50">
+                  <td class="px-5 py-3">
+                    <div class="font-medium">{{ application.title }}</div>
+                    {% if application.location %}
+                    <div class="text-xs text-gray-500">{{ application.location }}</div>
+                    {% endif %}
+                  </td>
+                  <td class="px-5 py-3">{{ application.company }}</td>
+                  <td class="px-5 py-3">{{ application.applied_at }}</td>
+                  <td class="px-5 py-3">
+                    {% if st == 'approved' %}
+                      <span class="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">Approved</span>
+                    {% elif st == 'rejected' %}
+                      <span class="inline-flex items-center rounded-full bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-700">Rejected</span>
+                    {% else %}
+                      <span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">Pending</span>
+                    {% endif %}
+                  </td>
+                  <td class="px-5 py-3">
+                    <div class="flex gap-2">
+                      <button class="inline-flex items-center gap-1 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 text-xs font-medium"><span class="material-symbols-outlined text-[16px]">visibility</span>Details</button>
+                      {% if st in ['pending'] %}
+                        <form action="/student/withdraw" method="post">
+                          <input type="hidden" name="internship_id" value="{{ application.internship_id }}" />
+                          {% if user and user.id %}
+                          <input type="hidden" name="student_id" value="{{ user.id }}" />
+                          <button class="inline-flex items-center gap-1 rounded-md border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 px-3 py-1.5 text-xs font-medium"><span class="material-symbols-outlined text-[16px]">cancel</span>Withdraw</button>
+                          {% else %}
+                          <button disabled class="inline-flex items-center gap-1 rounded-md border border-gray-300 text-gray-400 bg-gray-100 px-3 py-1.5 text-xs font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[16px]">cancel</span>Withdraw</button>
+                          {% endif %}
+                        </form>
+                      {% else %}
+                        <button disabled class="inline-flex items-center gap-1 rounded-md border border-gray-300 text-gray-400 bg-gray-100 px-3 py-1.5 text-xs font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[16px]">cancel</span>Withdraw</button>
+                      {% endif %}
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="5" class="px-5 py-6 text-center text-sm text-gray-600">No applications yet. Go to "Internship Listings" to apply.</td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4. My Tasks / Progress -->
+      <section id="section-tasks" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-blue-700">My Tasks</h1>
+          <p class="text-sm text-gray-600">Update task progress, upload deliverables, and view mentor feedback</p>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border bg-white shadow-sm">
+          <table class="min-w-full text-sm">
+            <thead class="bg-indigo-50 text-left text-xs uppercase tracking-wider text-indigo-800">
+              <tr>
+                <th class="px-5 py-3">Task</th>
+                <th class="px-5 py-3">Deadline</th>
+                <th class="px-5 py-3">Progress</th>
+                <th class="px-5 py-3">Status</th>
+                <th class="px-5 py-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tasksTable" class="divide-y odd:bg-white even:bg-gray-50">
+              <tr></tr>
+            </tbody>
+          </table>  
+        </div>
+      </section>
+
+      <!-- 5. Feedback & Evaluation -->
+      <section id="section-feedback" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-blue-700">Feedback & Evaluation</h1>
+          <p class="text-sm text-gray-600">Mentor comments and performance summary</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="rounded-xl border bg-white shadow-sm">
+            <div class="flex items-center justify-between border-b px-4 py-3">
+              <h3 class="font-medium">Mentor Feedback</h3>
+            </div>
+            <ul class="divide-y" id="feedbackList"></ul>
+          </div>
+          <div class="rounded-xl border bg-white shadow-sm">
+            <div class="flex items-center justify-between border-b px-4 py-3">
+              <h3 class="font-medium">Performance Summary</h3>
+            </div>
+            <div id="performanceSummary" class="p-4"></div>
+          </div>
+        </div>
+      </section>
+
+      
+      <!-- 6. Profile Management -->
+      <section id="section-profile" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-blue-700">Profile</h1>
+          <p class="text-sm text-gray-600">View and edit your profile information</p>
+        </div>
+
+        <form id="profileForm" class="space-y-4" action="/student/profile/update" method="post" enctype="multipart/form-data">
+          {% if user and user.id %}
+          <input type="hidden" name="student_id" value="{{ user.id }}" />
+          {% endif %}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">User ID</label>
+              <input type="text" value="{{ user.id if user and user.id }}" readonly
+                class="w-full rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-sm text-gray-600" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">Name</label>
+              <input type="text" id="profileName" name="name" placeholder="Your name" value="{{ user.name if user and user.name }}"
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">Email</label>
+              <input type="email" id="profileEmail" name="email" placeholder="you@example.com" value="{{ user.email if user and user.email }}"
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">Phone</label>
+              <input type="tel" id="profilePhone" name="phone" placeholder="(+66) 000-0000" value="{{ user.phone if user and user.phone }}"
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">Password</label>
+              <input type="password" id="profilePassword" name="password" placeholder="Leave blank to keep current password"
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-sm text-gray-700">Department</label>
+              <select id="profileDept" name="department_id"
+                class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500">
+                <option value="">Select department</option>
+                {% if departments %}
+                  {% for d in departments %}
+                    <option value="{{ d.id }}" {% if user and user.department_id and d.id == user.department_id %}selected{% endif %}>{{ d.name }}</option>
+                  {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="text-sm text-gray-700">Photo</label>
+                {% if user and user.profile_photo_url %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                    <span class="material-symbols-outlined text-[16px]">check_circle</span>Uploaded
+                  </span>
+                {% else %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700">
+                    <span class="material-symbols-outlined text-[16px]">info</span>Not uploaded
+                  </span>
+                {% endif %}
+              </div>
+              {% if user and user.profile_photo_url %}
+                <div class="flex items-center gap-3">
+                  <img src="{{ user.profile_photo_url }}" alt="Profile photo" class="h-12 w-12 rounded-full object-cover border" />
+                  <a href="{{ user.profile_photo_url }}" target="_blank" class="text-xs text-indigo-700 hover:underline">View</a>
+                </div>
+              {% endif %}
+              <div class="flex items-center gap-2">
+                <label for="profilePhoto"
+                  class="inline-flex items-center gap-2 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 cursor-pointer shadow-sm">
+                  <span class="material-symbols-outlined text-[18px]">upload</span>
+                  <span>Choose file</span>
+                </label>
+                <span id="profilePhotoName" class="text-xs text-gray-500 truncate" aria-live="polite">No file chosen</span>
+              </div>
+              <input type="file" id="profilePhoto" name="photo" accept="image/*" class="hidden" />
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="text-sm text-gray-700">CV</label>
+                {% if user and user.cv_url %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                    <span class="material-symbols-outlined text-[16px]">check_circle</span>Uploaded
+                  </span>
+                {% else %}
+                  <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700">
+                    <span class="material-symbols-outlined text-[16px]">info</span>Not uploaded
+                  </span>
+                {% endif %}
+              </div>
+              {% if user and user.cv_url %}
+                <div>
+                  <a href="{{ user.cv_url }}" target="_blank" class="text-xs text-indigo-700 hover:underline inline-flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+                    View current CV
+                  </a>
+                </div>
+              {% endif %}
+              <div class="flex items-center gap-2">
+                <label for="profileCV"
+                  class="inline-flex items-center gap-2 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 cursor-pointer shadow-sm">
+                  <span class="material-symbols-outlined text-[18px]">upload_file</span>
+                  <span>Choose file</span>
+                </label>
+                <span id="profileCVName" class="text-xs text-gray-500 truncate" aria-live="polite">No file chosen</span>
+              </div>
+              <input type="file" id="profileCV" name="cv" accept="application/pdf,.doc,.docx" class="hidden" />
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <button type="submit"
+              class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-indigo-600 to-sky-500 px-4 py-2 text-sm font-medium text-white hover:from-indigo-700 hover:to-sky-600 shadow-sm transition">Save</button>
+            <a href="#section-overview" class="inline-flex items-center justify-center rounded-md border border-indigo-200 text-indigo-700 bg-white px-4 py-2 text-sm font-medium hover:bg-indigo-50 shadow-sm transition">Cancel</a>
+          </div>
+        </form>
+      </section>
+
+
+      <!-- 7. Notifications -->
+      <section id="section-notifications" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-blue-700">Notifications</h1>
+        </div>
+        <ul class="relative border-l pl-4" id="notificationsTimeline"></ul>
+      </section>
+
+
+      <!-- 8. Reports / Certificates -->
+      <section id="section-reports" class="space-y-6">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-blue-700">Reports & Certificates</h1>
+          <p class="text-sm text-gray-600">Download your final internship documents</p>
+        </div>
+        <div id="reportsList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </section>
+    </main>
+  </div>
+</body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const photoInput = document.getElementById('profilePhoto');
+    const photoName = document.getElementById('profilePhotoName');
+    const cvInput = document.getElementById('profileCV');
+    const cvName = document.getElementById('profileCVName');
+
+    if (photoInput && photoName) {
+      photoInput.addEventListener('change', function () {
+        if (photoInput.files && photoInput.files.length > 0) {
+          photoName.textContent = photoInput.files[0].name;
+        } else {
+          photoName.textContent = 'No file chosen';
+        }
+      });
+    }
+
+    if (cvInput && cvName) {
+      cvInput.addEventListener('change', function () {
+        if (cvInput.files && cvInput.files.length > 0) {
+          cvName.textContent = cvInput.files[0].name;
+        } else {
+          cvName.textContent = 'No file chosen';
+        }
+      });
+    }
+  });
+</script>
+
+</html>
