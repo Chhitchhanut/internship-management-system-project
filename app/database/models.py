@@ -1,9 +1,7 @@
-# app/database/models.py
 from sqlalchemy import Column, Integer, String, ForeignKey, Date, TIMESTAMP, Boolean, Text
 from sqlalchemy.orm import relationship
 from .connection import Base
 
-# ---------------------
 # Departments
 # ---------------------
 class Department(Base):
@@ -15,7 +13,6 @@ class Department(Base):
     users = relationship("User", back_populates="department")
 
 
-# ---------------------
 # Users
 # ---------------------
 class User(Base):
@@ -46,7 +43,6 @@ class User(Base):
     reports = relationship("Report", back_populates="student")
 
 
-# ---------------------
 # Internships
 # ---------------------
 class Internship(Base):
@@ -70,7 +66,6 @@ class Internship(Base):
     reports = relationship("Report", back_populates="internship")
 
 
-# ---------------------
 # Applications
 # ---------------------
 class Application(Base):
@@ -91,7 +86,6 @@ class Application(Base):
     reviewer = relationship("User", foreign_keys=[reviewed_by])
 
 
-# ---------------------
 # Internship Supervisions
 # ---------------------
 class InternshipSupervision(Base):
@@ -110,7 +104,6 @@ class InternshipSupervision(Base):
     student = relationship("User", foreign_keys=[student_id])
 
 
-# ---------------------
 # Tasks
 # ---------------------
 class Task(Base):
@@ -131,7 +124,6 @@ class Task(Base):
     task_submissions = relationship("TaskSubmission", back_populates="task")
 
 
-# ---------------------
 # Task Assignments
 # ---------------------
 class TaskAssignment(Base):
@@ -147,7 +139,6 @@ class TaskAssignment(Base):
     student = relationship("User", back_populates="task_assignments")
 
 
-# ---------------------
 # Task Submissions
 # ---------------------
 class TaskSubmission(Base):
@@ -167,7 +158,6 @@ class TaskSubmission(Base):
     feedbacks = relationship("Feedback", back_populates="task_submission")
 
 
-# ---------------------
 # Feedback
 # ---------------------
 class Feedback(Base):
@@ -187,7 +177,6 @@ class Feedback(Base):
     task_submission = relationship("TaskSubmission", back_populates="feedbacks")
 
 
-# ---------------------
 # Notifications
 # ---------------------
 class Notification(Base):
@@ -204,7 +193,6 @@ class Notification(Base):
     user = relationship("User", back_populates="notifications")
 
 
-# ---------------------
 # Reports
 # ---------------------
 class Report(Base):

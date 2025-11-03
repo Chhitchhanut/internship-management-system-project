@@ -341,7 +341,11 @@
                 <td class="px-5 py-3">{{ a.id }}</td>
                 <td class="px-5 py-3">{{ a.student_id }}</td>
                 <td class="px-5 py-3">{{ a.internship_id }}</td>
+                {% if a.cv_url %}
                 <td target="_blank" class="text-indigo-700 hover:underline"><a href="{{ a.cv_url }}">{{ a.cv_url }}</a></td>
+                {% else %}
+                <td class="text-indigo-700 hover:underline"><p>No CV</p></td>
+                {% endif %}
                 <td>
                   {% set s = (a.status)|lower %}
                   {% if s == 'approved' %}
@@ -360,12 +364,26 @@
                 </td>
                 <td class="px-5 py-3">
                   <div class="flex flex-wrap gap-2">
-                    <button type="button" class="inline-flex items-center gap-1 rounded-md bg-emerald-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-emerald-700 shadow-sm">
+                    {% if s == 'pending' %}
+                    <form action="/admin/approve" method="post">
+                      <input type="hidden" name="application_id" value="{{ a.id }}" />
+                      <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-emerald-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-emerald-700 shadow-sm">
+                        <span class="material-symbols-outlined text-[16px]">check_circle</span>Approve
+                      </button>
+                    </form>
+                    <form action="/admin/reject" method="post">
+                      <input type="hidden" name="application_id" value="{{ a.id }}" />
+                      <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-rose-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-rose-700 shadow-sm">
+                      <span class="material-symbols-outlined text-[16px]">cancel</span>Reject</button>
+                    </form>
+                    {% else %}
+                    <button disabled type="button" class="inline-flex items-center gap-1 rounded-md bg-emerald-400 text-white px-2.5 py-1.5 text-xs font-medium shadow-sm cursor-not-allowed">
                       <span class="material-symbols-outlined text-[16px]">check_circle</span>Approve
                     </button>
-                    <button type="button" class="inline-flex items-center gap-1 rounded-md bg-rose-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-rose-700 shadow-sm">
+                    <button disabled type="button" class="inline-flex items-center gap-1 rounded-md bg-rose-400 text-white px-2.5 py-1.5 text-xs font-medium shadow-sm cursor-not-allowed">
                       <span class="material-symbols-outlined text-[16px]">cancel</span>Reject</button>
-                  </div>
+                    {% endif %}
+                    </div>
                 </td>
               </tr>
               {% endfor %}

@@ -204,6 +204,48 @@ def admin_dash(
     )
 
 
+# Approve Application
+# ----------------------------
+@router.post("/admin/approve")
+def approve_application(
+    request: Request,
+    application_id: int = Form(...),
+    db: Session = Depends(get_db),
+):
+    app = (
+        db.query(Application)
+        .filter(Application.id == application_id)
+        .first()
+    )
+    if app and (app.status or '').lower() == 'pending':
+        app.status = 'approved'
+        db.commit()
+
+    target = f"/admin_dash#section-approvals"
+    return RedirectResponse(url=target, status_code=status.HTTP_303_SEE_OTHER)
+
+
+# Reject Application
+# ----------------------------
+@router.post("/admin/reject")
+def reject_application(
+    request: Request,
+    application_id: int = Form(...),
+    db: Session = Depends(get_db),
+):
+    app = (
+        db.query(Application)
+        .filter(Application.id == application_id)
+        .first()
+    )
+    if app and (app.status or '').lower() == 'pending':
+        app.status = 'rejected'
+        db.commit()
+
+    target = f"/admin_dash#section-approvals"
+    return RedirectResponse(url=target, status_code=status.HTTP_303_SEE_OTHER)
+
+
 @router.post("/admin/internships/delete")
 def admin_delete_internship(
     request: Request,

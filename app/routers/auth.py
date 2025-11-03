@@ -14,7 +14,6 @@ def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode("utf-8")).hexdigest()
 
 
-# ---------------------
 # Signup
 # ---------------------
 @router.post("/signup")
@@ -55,7 +54,6 @@ def signup_post(
     return RedirectResponse(url=f"/student_dash?student_id={u.id}", status_code=status.HTTP_303_SEE_OTHER)
 
 
-# ---------------------
 # Login
 # ---------------------
 @router.post("/login")

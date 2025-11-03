@@ -180,7 +180,10 @@
                   <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">group</span>Slots: {{ listing.slots }}</span>
                 </div>
                 {% if listing.description %}
-                <p class="text-sm text-gray-700 line-clamp-3">{{ listing.description }}</p>
+                <p class="text-sm text-gray-700 line-clamp-3">Description: {{ listing.description }}</p>
+                {% endif %} 
+                {% if listing.requirements %}
+                <p class="text-sm text-gray-700 line-clamp-3">Requirement: {{ listing.requirements }}</p>
                 {% endif %}
                 <div class="pt-2">
                   {% set has_applied = (applied_ids is defined) and (listing.id in applied_ids) %}
@@ -189,15 +192,20 @@
                   {% elif s == 'closed' %}
                   <button disabled class="w-full inline-flex items-center justify-center gap-1 rounded-md bg-gray-300 text-gray-600 px-3 py-2 text-sm font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[18px]">hourglass_empty</span>Applications Closed</button>
                   {% else %}
-                  <form action="/student/apply" method="post">
-                    <input type="hidden" name="internship_id" value="{{ listing.id }}" />
-                    {% if user and user.id %}
-                    <input type="hidden" name="student_id" value="{{ user.id }}" />
-                    <button class="w-full inline-flex items-center justify-center gap-1 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 text-sm font-medium"><span class="material-symbols-outlined text-[18px]">send</span>Apply</button>
-                    {% else %}
-                    <button disabled class="w-full inline-flex items-center justify-center gap-1 rounded-md bg-gray-300 text-gray-600 px-3 py-2 text-sm font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[18px]">lock</span>Login required</button>
-                    {% endif %}
-                  </form>
+
+                  <div class="flex gap-1">
+
+                    <form action="/student/apply" method="post" class="flex-1">
+                      <input type="hidden" name="internship_id" value="{{ listing.id }}" />
+                      {% if user and user.id %}
+                      <input type="hidden" name="student_id" value="{{ user.id }}" />
+                      <button class="w-full inline-flex items-center justify-center gap-1 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 text-sm font-medium"><span class="material-symbols-outlined text-[18px]">send</span>Apply</button>
+                      {% else %}
+                      <button disabled class="w-full inline-flex items-center justify-center gap-1 rounded-md bg-gray-300 text-gray-600 px-3 py-2 text-sm font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[18px]">lock</span>Login required</button>
+                      {% endif %}
+                    </form>
+                  </div>
+
                   {% endif %}
                 </div>
               </div>
@@ -264,13 +272,13 @@
                           <input type="hidden" name="internship_id" value="{{ application.internship_id }}" />
                           {% if user and user.id %}
                           <input type="hidden" name="student_id" value="{{ user.id }}" />
-                          <button class="inline-flex items-center gap-1 rounded-md border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 px-3 py-1.5 text-xs font-medium"><span class="material-symbols-outlined text-[16px]">cancel</span>Withdraw</button>
+                          <button class="inline-flex items-center gap-1 rounded-md border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 px-3 py-1.5 text-xs font-medium"><span class="material-symbols-outlined text-[16px]">cancel</span>Cancel</button>
                           {% else %}
-                          <button disabled class="inline-flex items-center gap-1 rounded-md border border-gray-300 text-gray-400 bg-gray-100 px-3 py-1.5 text-xs font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[16px]">cancel</span>Withdraw</button>
+                          <button disabled class="inline-flex items-center gap-1 rounded-md border border-gray-300 text-gray-400 bg-gray-100 px-3 py-1.5 text-xs font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[16px]">cancel</span>Cancel</button>
                           {% endif %}
                         </form>
                       {% else %}
-                        <button disabled class="inline-flex items-center gap-1 rounded-md border border-gray-300 text-gray-400 bg-gray-100 px-3 py-1.5 text-xs font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[16px]">cancel</span>Withdraw</button>
+                        <button disabled class="inline-flex items-center gap-1 rounded-md border border-gray-300 text-gray-400 bg-gray-100 px-3 py-1.5 text-xs font-medium cursor-not-allowed"><span class="material-symbols-outlined text-[16px]">cancel</span>Cancel</button>
                       {% endif %}
                     </div>
                   </td>

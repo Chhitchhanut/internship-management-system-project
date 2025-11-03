@@ -197,6 +197,7 @@ def update_profile(
     target = f"/student_dash?student_id={student_id}#section-profile"
     return RedirectResponse(url=target, status_code=status.HTTP_303_SEE_OTHER)
 
+
 @router.post("/student/withdraw")
 def withdraw_application(
     request: Request,
@@ -215,5 +216,4 @@ def withdraw_application(
 
     target = f"/student_dash?student_id={student_id}#section-applications"
     return RedirectResponse(url=target, status_code=status.HTTP_303_SEE_OTHER)
-
 
