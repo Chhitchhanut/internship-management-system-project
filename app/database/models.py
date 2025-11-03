@@ -35,7 +35,6 @@ class User(Base):
     applications = relationship("Application", back_populates="student", foreign_keys="Application.student_id")
     supervised_internships = relationship("InternshipSupervision", back_populates="mentor", foreign_keys="InternshipSupervision.mentor_id")
     tasks_assigned = relationship("Task", back_populates="assigned_by_user", foreign_keys="Task.assigned_by")
-    task_assignments = relationship("TaskAssignment", back_populates="student")
     task_submissions = relationship("TaskSubmission", back_populates="student")
     feedbacks = relationship("Feedback", back_populates="student", foreign_keys="Feedback.student_id")
     feedbacks_given = relationship("Feedback", back_populates="mentor", foreign_keys="Feedback.mentor_id")
@@ -62,7 +61,6 @@ class Internship(Base):
 
     applications = relationship("Application", back_populates="internship")
     supervisions = relationship("InternshipSupervision", back_populates="internship")
-    tasks = relationship("Task", back_populates="internship")
     reports = relationship("Report", back_populates="internship")
 
 
@@ -102,41 +100,46 @@ class InternshipSupervision(Base):
     mentor = relationship("User", back_populates="supervised_internships", foreign_keys=[mentor_id])
     internship = relationship("Internship", back_populates="supervisions")
     student = relationship("User", foreign_keys=[student_id])
+    tasks = relationship("Task", back_populates="internship_sv")
 
 
 # Tasks
 # ---------------------
+# class Task(Base):
+#     __tablename__ = "tasks"
+
+#     id = Column(Integer, primary_key=True, index=True)
+#     supervision_id = Column(Integer, ForeignKey("InternshipSupervision.id"), nullable=True)
+#     student_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+#     assigned_by = Column(Integer, ForeignKey("users.id"), nullable=False)
+#     title = Column(String, nullable=False)
+#     description = Column(Text)
+#     due_date = Column(Date)
+#     created_at = Column(TIMESTAMP)
+#     status = Column(String, default="assigned")  # assigned/in_progress/completed/overdue
+
+#     internship_sv = relationship("InternshipSupervision", back_populates="tasks", foreign_keys=[supervision_id])
+#     assigned_by_user = relationship("User", back_populates="tasks_assigned", foreign_keys=[assigned_by])
+#     task_submissions = relationship("TaskSubmission", back_populates="task", foreign_keys="TaskSubmission.task_id")
+
+
 class Task(Base):
     __tablename__ = "tasks"
 
     id = Column(Integer, primary_key=True, index=True)
-    internship_id = Column(Integer, ForeignKey("internships.id"), nullable=True)
+    supervision_id = Column(Integer, ForeignKey("internship_supervisions.id"), nullable=True)
+    student_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     assigned_by = Column(Integer, ForeignKey("users.id"), nullable=False)
     title = Column(String, nullable=False)
     description = Column(Text)
     due_date = Column(Date)
     created_at = Column(TIMESTAMP)
-    status = Column(String, default="active")  # active/inactive/archive
-
-    internship = relationship("Internship", back_populates="tasks")
-    assigned_by_user = relationship("User", back_populates="tasks_assigned")
-    task_assignments = relationship("TaskAssignment", back_populates="task")
-    task_submissions = relationship("TaskSubmission", back_populates="task")
-
-
-# Task Assignments
-# ---------------------
-class TaskAssignment(Base):
-    __tablename__ = "task_assignments"
-
-    id = Column(Integer, primary_key=True, index=True)
-    task_id = Column(Integer, ForeignKey("tasks.id"), nullable=False)
-    student_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    assigned_at = Column(TIMESTAMP)
     status = Column(String, default="assigned")  # assigned/in_progress/completed/overdue
 
-    task = relationship("Task", back_populates="task_assignments")
-    student = relationship("User", back_populates="task_assignments")
+    internship_sv = relationship("InternshipSupervision", back_populates="tasks", foreign_keys=[supervision_id])
+    assigned_by_user = relationship("User", back_populates="tasks_assigned", foreign_keys=[assigned_by])
+    task_submissions = relationship("TaskSubmission", back_populates="task", foreign_keys="TaskSubmission.task_id")
+
 
 
 # Task Submissions
@@ -151,7 +154,6 @@ class TaskSubmission(Base):
     content = Column(Text)
     file_url = Column(String)
     status = Column(String, default="submitted")  # submitted/under_review/approved/changes_requested
-    grade = Column(String)
 
     task = relationship("Task", back_populates="task_submissions")
     student = relationship("User", back_populates="task_submissions")

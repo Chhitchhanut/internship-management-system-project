@@ -59,13 +59,12 @@
 
     <!-- Content -->
     <main class="p-6 md:p-8 space-y-10 max-w-7xl mx-auto">
-      <!-- Overview -->
+      <!-- 1. Overview -->
       <section id="section-overview" class="space-y-6">
         <div class="flex flex-col gap-1">
           <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-blue-700">Dashboard Overview</h1>
           <p class="text-sm text-gray-600">System summary and quick insights</p>
         </div>
-
         <!-- Summary Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-blue-500">
@@ -87,7 +86,8 @@
         </div>
       </section>
 
-      <!-- Manage Internships -->
+      
+      <!-- 2. Manage Internships -->
       <section id="section-internships" class="space-y-6">
         <div class="flex flex-col gap-1">
           <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Manage Internships</h2>
@@ -315,7 +315,7 @@
       </section>
 
 
-      <!-- Approve Applications -->
+      <!-- 3. Approve Applications -->
       <section id="section-approvals" class="space-y-6">
         <div class="flex flex-col gap-1">
           <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Approve Applications</h2>
@@ -398,7 +398,7 @@
       </section>
 
 
-      <!-- Assign Tasks -->
+      <!-- 4. Assign Tasks -->
       <section id="section-assign" class="space-y-6">
         <div class="flex flex-col gap-1">
           <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-blue-700">Assign Tasks</h2>
@@ -411,27 +411,37 @@
               <div class="flex items-center justify-between border-b px-4 py-3">
                 <h3 class="font-medium">Assign Task to Student</h3>
               </div>
-              <form class="p-4 space-y-3 text-sm">
+              <form action="/admin/task_create" method="post" class="p-4 space-y-3 text-sm">
                 <div class="space-y-1">
                   <label class="text-gray-700">Task Title</label>
-                  <input type="text" placeholder="e.g., Design project poster" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  <input type="text" name="title" placeholder="e.g., Design project poster" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div class="space-y-1">
+                    <label class="text-gray-700">Internship SV ID</label>
+                    <input type="number" name="internship_sv_id" placeholder="e.g., 102" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                  <div class="space-y-1">
                     <label class="text-gray-700">Assign to (Student ID)</label>
-                    <input type="text" placeholder="e.g., 102" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                    <input type="number" name="student_id" placeholder="e.g., 102" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="space-y-1">
+                    <label class="text-gray-700">Assign by (Mentor ID)</label>
+                    <input type="number" name="mentor_id" placeholder="e.g., 102" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
                   </div>
                   <div class="space-y-1">
                     <label class="text-gray-700">Deadline</label>
-                    <input type="date" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
+                    <input type="date" name="deadline" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500" />
                   </div>
                 </div>
                 <div class="space-y-1">
-                  <label class="text-gray-700">Notes</label>
-                  <textarea placeholder="Optional instructions" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500"></textarea>
+                  <label class="text-gray-700">Description</label>
+                  <textarea name="desc" placeholder="Optional instructions" required class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/60 focus:border-blue-500"></textarea>
                 </div>
                 <div class="flex gap-2 pt-1">
-                  <button type="button" class="inline-flex items-center gap-1 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 shadow-sm">
+                  <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-medium hover:bg-blue-700 shadow-sm">
                     <span class="material-symbols-outlined text-[18px]">assignment_add</span>Assign Task
                   </button>
                   <button type="reset" class="inline-flex items-center gap-1 rounded-md border border-gray-200 text-gray-700 bg-white px-3 py-2 text-sm font-medium hover:bg-gray-50 shadow-sm">Clear</button>
@@ -459,21 +469,32 @@
                     </tr>
                   </thead>
                   <tbody class="divide-y odd:bg-white even:bg-gray-50">
+                    {% if tasks and tasks|length > 0 %}
+                    {% for t in tasks %}
                     <tr class="hover:bg-gray-50">
-                      <td class="px-5 py-3">Task</td>
-                      <td class="px-5 py-3">Design project poster</td>
-                      <td class="px-5 py-3">Student ID 102</td>
-                      <td class="px-5 py-3">—</td>
-                      <td class="px-5 py-3">2025-11-10</td>
+                      <td class="px-5 py-3">{{ t.id }}</td>
+                      <td class="px-5 py-3">{{ t.title }}</td>
+                      <td class="px-5 py-3">{{ t.student_id }}</td>
+                      <td class="px-5 py-3">{{ t.assigned_by }}</td>
+                      <td class="px-5 py-3">{{ t.due_date }}</td>
                       <td class="px-5 py-3">
                         <span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">Assigned</span>
                       </td>
                       <td>
-                        <button type="button" class="inline-flex items-center gap-1 rounded-md bg-rose-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-rose-700 shadow-sm">
-                          <span class="material-symbols-outlined text-[16px]">delete</span>Delete
-                        </button>
+                        <form action="/admin/Task_delete" method="post">
+                          <input type="hidden" name="task_id" value="{{ t.id }}" />
+                          <button type="submit" class="inline-flex items-center gap-1 rounded-md bg-rose-600 text-white px-2.5 py-1.5 text-xs font-medium hover:bg-rose-700 shadow-sm">
+                            <span class="material-symbols-outlined text-[16px]">delete</span>Delete
+                          </button>
+                        </form>
                       </td>
                     </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                      <td colspan="7" class="px-5 py-6 text-center text-gray-500">No assignments found.</td>  
+                    </tr>
+                    {% endif %}
                   </tbody>
                 </table>
               </div>

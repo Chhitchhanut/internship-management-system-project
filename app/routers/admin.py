@@ -17,7 +17,6 @@ from app.database.models import (
     Department,
     Application,
     Task,
-    TaskAssignment,
     TaskSubmission,
     Feedback,
     Report,
@@ -188,6 +187,19 @@ def admin_dash(
                 }
                 for a in applications
             ],
+            "tasks": [
+                {
+                    "id": t.id,
+                    "title": t.title,
+                    "internship_sv_id": t.supervision_id,
+                    "student_id": t.student_id,
+                    "assigned_by": t.assigned_by,
+                    "due_date": t.due_date,
+                    "description": t.description,
+                    "status": t.status,
+                }
+                for t in db.query(Task).order_by(Task.created_at.desc().nullslast()).all()
+            ],
             "edit_internship": edit_intern_ctx,
             "search_email": search_email,
             "search_field": field_norm or None,
@@ -246,6 +258,57 @@ def reject_application(
     return RedirectResponse(url=target, status_code=status.HTTP_303_SEE_OTHER)
 
 
+# Create Task Assignment
+# ----------------------------
+@router.post("/admin/task_create")
+def create_task(
+    request: Request,
+    title: str = Form(...),
+    mentor_id: int = Form(...),
+    student_id: int = Form(...),
+    internship_sv_id: int = Form(...),
+    deadline: str = Form(...),
+    desc: str = Form(...),
+    db: Session = Depends(get_db),
+):
+    deadline = datetime.strptime(deadline, "%Y-%m-%d").date()
+    ct = Task(
+        title=title,
+        description=desc,
+        due_date=deadline,
+        assigned_by=mentor_id,
+        student_id=student_id,
+        supervision_id=internship_sv_id,
+    )
+
+    db.add(ct)
+    db.commit()
+
+    return RedirectResponse(url="/admin_dash#section-assign", status_code=status.HTTP_303_SEE_OTHER)
+# Delete Task Assignment
+# ----------------------------
+@router.post("/admin/Task_delete")
+def admin_task_delete(
+    request: Request,
+    task_id: int = Form(...),
+    db: Session = Depends(get_db),
+):
+    tasks = (
+        db.query(Task)
+        .filter(Task.id == task_id)
+        .first()
+    )
+    if tasks:
+        db.delete(tasks)
+        db.commit()
+
+    target = f"/admin_dash#section-assign"
+    return RedirectResponse(url=target, status_code=status.HTTP_303_SEE_OTHER)
+  
+
+
+# Delete Internship
+# ----------------------------
 @router.post("/admin/internships/delete")
 def admin_delete_internship(
     request: Request,
@@ -266,8 +329,6 @@ def admin_delete_internship(
             if sub_ids:
                 db.query(Feedback).filter(Feedback.task_submission_id.in_(sub_ids)).delete(synchronize_session=False)
                 db.query(TaskSubmission).filter(TaskSubmission.id.in_(sub_ids)).delete(synchronize_session=False)
-            # Delete task assignments
-            db.query(TaskAssignment).filter(TaskAssignment.task_id.in_(task_ids)).delete(synchronize_session=False)
             # Delete tasks
             db.query(Task).filter(Task.id.in_(task_ids)).delete(synchronize_session=False)
 
