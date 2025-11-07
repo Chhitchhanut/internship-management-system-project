@@ -91,6 +91,10 @@ def admin_dash(
             )
     internships = internships_query.order_by(Internship.created_at.desc().nullslast()).all()
     applications = db.query(Application).order_by(Application.applied_at.desc().nullslast()).all()
+    tt_students = db.query(User).filter(User.role == "student").count()
+    tt_mentors = db.query(User).filter(User.role == "mentor").count()
+    tt_active_interns = db.query(InternshipSupervision).count()
+    tt_pending_appli = db.query(Application).filter(func.lower(Application.status) == "pending").count()
 
 
     # Prefill data for Update Internship form if requested
@@ -210,6 +214,10 @@ def admin_dash(
             "updated": bool(updated),
             "i_search_field": i_field_norm or None,
             "i_q": i_q_norm or None,
+            "tt_students": tt_students,
+            "tt_mentors": tt_mentors,
+            "tt_active_interns": tt_active_interns,
+            "tt_pending_appli": tt_pending_appli,
         },
     )
 
