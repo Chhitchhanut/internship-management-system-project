@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.database.connection import get_db
-from app.database.models import Internship, Application, User, Department, InternshipSupervision
+from app.database.models import Internship, Application, User, Department, InternshipSupervision, Task
 from typing import Optional
 import os
 from uuid import uuid4
@@ -23,6 +23,8 @@ def student_dash(request: Request, student_id: Optional[int] = Query(None), db: 
     total_pending = 0
     total_approved = 0
     total_rejected = 0
+    total_tasks = 0
+    total_tasks_completed = 0
     departments = []
     active_internship = None
 
@@ -57,7 +59,6 @@ def student_dash(request: Request, student_id: Optional[int] = Query(None), db: 
                 for a, i in app_rows
             ]
             applied_ids = [i.id for a, i in app_rows]
-
             # Stats
             total_applied = len(applications)
             for a, _ in app_rows:
@@ -69,6 +70,24 @@ def student_dash(request: Request, student_id: Optional[int] = Query(None), db: 
                 else:
                     total_pending += 1
             departments = db.query(Department).order_by(Department.name.asc()).all()
+            
+            tasks = [
+                {
+                    "title": t.title,
+                    "description": t.description,
+                    "due_date": t.due_date,
+                    "status": t.status,
+                    "student_id": t.student_id,
+                    "assigned_by": t.assigned_by, 
+                    "feedback": t.feedback, 
+                }
+                for t in db.query(Task).filter(Task.student_id == student_id).order_by(Task.due_date.asc()).all()
+            ]
+            for t in tasks:
+                if student_id == t['student_id']:
+                    total_tasks += 1
+                    if (t['status'] or '').lower() == 'completed' or (t['status'] or '').lower() == 'overdue':
+                        total_tasks_completed += 1
 
             # Active internship via supervision (only when student's application is approved)
             sup = (
@@ -107,6 +126,9 @@ def student_dash(request: Request, student_id: Optional[int] = Query(None), db: 
             "total_approved": total_approved,
             "total_rejected": total_rejected,
             "departments": departments,
+            "tasks": tasks,
+            "total_tasks": total_tasks,
+            "total_tasks_completed": total_tasks_completed,
             "active_internship": active_internship,
         },
     )
@@ -137,7 +159,6 @@ def apply_to_internship(
     # Redirect to Applications section on the dashboard without using JS
     target = f"/student_dash?student_id={student_id}#section-applications"
     return RedirectResponse(url=target, status_code=status.HTTP_303_SEE_OTHER)
-
 
 
 @router.post("/student/profile/update")

@@ -35,9 +35,6 @@ class User(Base):
     applications = relationship("Application", back_populates="student", foreign_keys="Application.student_id")
     supervised_internships = relationship("InternshipSupervision", back_populates="mentor", foreign_keys="InternshipSupervision.mentor_id")
     tasks_assigned = relationship("Task", back_populates="assigned_by_user", foreign_keys="Task.assigned_by")
-    task_submissions = relationship("TaskSubmission", back_populates="student")
-    feedbacks = relationship("Feedback", back_populates="student", foreign_keys="Feedback.student_id")
-    feedbacks_given = relationship("Feedback", back_populates="mentor", foreign_keys="Feedback.mentor_id")
     notifications = relationship("Notification", back_populates="user")
     reports = relationship("Report", back_populates="student")
 
@@ -103,26 +100,6 @@ class InternshipSupervision(Base):
     tasks = relationship("Task", back_populates="internship_sv")
 
 
-# Tasks
-# ---------------------
-# class Task(Base):
-#     __tablename__ = "tasks"
-
-#     id = Column(Integer, primary_key=True, index=True)
-#     supervision_id = Column(Integer, ForeignKey("InternshipSupervision.id"), nullable=True)
-#     student_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-#     assigned_by = Column(Integer, ForeignKey("users.id"), nullable=False)
-#     title = Column(String, nullable=False)
-#     description = Column(Text)
-#     due_date = Column(Date)
-#     created_at = Column(TIMESTAMP)
-#     status = Column(String, default="assigned")  # assigned/in_progress/completed/overdue
-
-#     internship_sv = relationship("InternshipSupervision", back_populates="tasks", foreign_keys=[supervision_id])
-#     assigned_by_user = relationship("User", back_populates="tasks_assigned", foreign_keys=[assigned_by])
-#     task_submissions = relationship("TaskSubmission", back_populates="task", foreign_keys="TaskSubmission.task_id")
-
-
 class Task(Base):
     __tablename__ = "tasks"
 
@@ -132,51 +109,13 @@ class Task(Base):
     assigned_by = Column(Integer, ForeignKey("users.id"), nullable=False)
     title = Column(String, nullable=False)
     description = Column(Text)
+    feedback = Column(Text)
     due_date = Column(Date)
     created_at = Column(TIMESTAMP)
     status = Column(String, default="assigned")  # assigned/in_progress/completed/overdue
 
     internship_sv = relationship("InternshipSupervision", back_populates="tasks", foreign_keys=[supervision_id])
     assigned_by_user = relationship("User", back_populates="tasks_assigned", foreign_keys=[assigned_by])
-    task_submissions = relationship("TaskSubmission", back_populates="task", foreign_keys="TaskSubmission.task_id")
-
-
-
-# Task Submissions
-# ---------------------
-class TaskSubmission(Base):
-    __tablename__ = "task_submissions"
-
-    id = Column(Integer, primary_key=True, index=True)
-    task_id = Column(Integer, ForeignKey("tasks.id"), nullable=False)
-    student_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    submitted_at = Column(TIMESTAMP)
-    content = Column(Text)
-    file_url = Column(String)
-    status = Column(String, default="submitted")  # submitted/under_review/approved/changes_requested
-
-    task = relationship("Task", back_populates="task_submissions")
-    student = relationship("User", back_populates="task_submissions")
-    feedbacks = relationship("Feedback", back_populates="task_submission")
-
-
-# Feedback
-# ---------------------
-class Feedback(Base):
-    __tablename__ = "feedback"
-
-    id = Column(Integer, primary_key=True, index=True)
-    student_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    mentor_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    task_submission_id = Column(Integer, ForeignKey("task_submissions.id"), nullable=True)
-    rating = Column(String)  # excellent/good/needs_improvement
-    comment = Column(Text)
-    suggestions = Column(Text)
-    created_at = Column(TIMESTAMP)
-
-    student = relationship("User", back_populates="feedbacks", foreign_keys=[student_id])
-    mentor = relationship("User", back_populates="feedbacks_given", foreign_keys=[mentor_id])
-    task_submission = relationship("TaskSubmission", back_populates="feedbacks")
 
 
 # Notifications

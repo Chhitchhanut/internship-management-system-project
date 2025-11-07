@@ -17,8 +17,6 @@ from app.database.models import (
     Department,
     Application,
     Task,
-    TaskSubmission,
-    Feedback,
     Report,
 )
 
