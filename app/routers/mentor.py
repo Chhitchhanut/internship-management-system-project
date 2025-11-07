@@ -3,7 +3,8 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from app.database.connection import get_db
-from app.database.models import User, Department
+from datetime import datetime
+from app.database.models import User, Department, Task, InternshipSupervision
 from typing import Optional
 import hashlib
 import os
@@ -30,9 +31,110 @@ def mentor_dash(request: Request, mentor_id: Optional[int] = Query(None), db: Se
             }
             departments = db.query(Department).order_by(Department.name.asc()).all()
 
-    return templates.TemplateResponse("mentor_dash.html", {"request": request, "user": user_ctx, "departments": departments})
+    return templates.TemplateResponse(
+        "mentor_dash.html", 
+        {
+            "request": request, 
+            "user": user_ctx, 
+            "departments": departments,
+            "tasks": [
+                {
+                    "id": t.id,
+                    "title": t.title,
+                    "internship_sv_id": t.supervision_id,
+                    "student_id": t.student_id,
+                    "assigned_by": t.assigned_by,
+                    "due_date": t.due_date,
+                    "description": t.description,
+                    "status": t.status,
+                }
+                for t in db.query(Task).order_by(Task.created_at.desc().nullslast()).all()
+            ],
+            "supervisions": [
+                {
+                    "id": s.id  ,
+                    "internship_id": s.internship_id,
+                    "mentor_id": s.mentor_id,
+                    "student_id": s.student_id,
+                }
+                for s in db.query(InternshipSupervision).filter(InternshipSupervision.mentor_id == mentor_id).all()
+            ] if mentor_id else [],
+            "mentor_id": mentor_id,     
+        },
+    )
 
 
+# Create Task Assignment
+# ----------------------------
+from fastapi import Form, Depends
+from fastapi.responses import RedirectResponse
+from sqlalchemy.orm import Session
+from app.database.connection import get_db
+from app.database.models import InternshipSupervision, Task
+from datetime import datetime
+
+@router.post("/mentor/task_create")
+def mentor_task_create(
+    mentor_id: int = Form(...),
+    student_id: int = Form(...),
+    internship_sv_id: int = Form(...),
+    title: str = Form(...),
+    desc: str = Form(...),
+    deadline: Optional[str] = Form(None),
+    db: Session = Depends(get_db),
+):
+    # Ensure the supervision exists and belongs to this mentor
+    supervision = db.query(InternshipSupervision).filter(
+        InternshipSupervision.id == internship_sv_id,
+        InternshipSupervision.mentor_id == mentor_id,
+        InternshipSupervision.student_id == student_id
+    ).first()
+
+    if not supervision:
+        # not allowed — either wrong SV id, mentor mismatch, or student mismatch
+        return RedirectResponse(url=f"/mentor_dash?mentor_id={mentor_id}", status_code=303)
+
+    task = Task(
+        title=title.strip(),
+        description=desc.strip(),
+        due_date=datetime.fromisoformat(deadline) if deadline else None,
+        assigned_by=mentor_id,
+        student_id=student_id,
+        supervision_id=internship_sv_id,
+        status="assigned",
+        created_at=datetime.utcnow()
+    )
+    db.add(task)
+    db.commit()
+
+    target = f"/mentor_dash?mentor_id={mentor_id}#assign-tasks"
+    return RedirectResponse(url=target, status_code=303)
+
+
+# Delete Task Assignment
+# ----------------------------
+@router.post("/mentor/task_delete")
+def mentor_task_delete(
+    request: Request,
+    task_id: int = Form(...),
+    mentor_id: int = Form(...),
+    db: Session = Depends(get_db),
+):
+    tasks = (
+        db.query(Task)
+        .filter(Task.id == task_id)
+        .first()
+    )
+    if tasks:
+        db.delete(tasks)
+        db.commit()
+
+    target = f"/mentor_dash?mentor_id={mentor_id}#assign-tasks"
+    return RedirectResponse(url=target, status_code=status.HTTP_303_SEE_OTHER)
+
+
+# Update Mentor Profile
+# ----------------------------
 @router.post("/mentor/profile/update")
 def update_profile(
     request: Request,

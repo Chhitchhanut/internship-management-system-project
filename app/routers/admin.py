@@ -285,6 +285,8 @@ def create_task(
     db.commit()
 
     return RedirectResponse(url="/admin_dash#section-assign", status_code=status.HTTP_303_SEE_OTHER)
+
+
 # Delete Task Assignment
 # ----------------------------
 @router.post("/admin/Task_delete")
@@ -304,7 +306,6 @@ def admin_task_delete(
 
     target = f"/admin_dash#section-assign"
     return RedirectResponse(url=target, status_code=status.HTTP_303_SEE_OTHER)
-  
 
 
 # Delete Internship
