@@ -47,6 +47,9 @@ def mentor_dash(request: Request, mentor_id: Optional[int] = Query(None), db: Se
                     "due_date": t.due_date,
                     "description": t.description,
                     "status": t.status,
+                    "created_at": t.created_at,
+                    "feedback": t.feedback,
+                    "rating": t.rating,
                 }
                 for t in db.query(Task).order_by(Task.created_at.desc().nullslast()).all()
             ],

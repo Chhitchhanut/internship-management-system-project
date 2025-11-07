@@ -100,6 +100,8 @@ class InternshipSupervision(Base):
     tasks = relationship("Task", back_populates="internship_sv")
 
 
+# Tasks
+# ---------------------
 class Task(Base):
     __tablename__ = "tasks"
 
@@ -110,6 +112,7 @@ class Task(Base):
     title = Column(String, nullable=False)
     description = Column(Text)
     feedback = Column(Text)
+    rating = Column(String, default="not_yet")  # e.g., excellent/good/need_improvement/not_yet
     due_date = Column(Date)
     created_at = Column(TIMESTAMP)
     status = Column(String, default="assigned")  # assigned/in_progress/completed/overdue
