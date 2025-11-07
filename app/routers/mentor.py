@@ -31,6 +31,18 @@ def mentor_dash(request: Request, mentor_id: Optional[int] = Query(None), db: Se
             }
             departments = db.query(Department).order_by(Department.name.asc()).all()
 
+            total_students = 0
+            supervisions = db.query(InternshipSupervision).filter(InternshipSupervision.mentor_id == mentor_id).all()
+            for s in supervisions:
+                total_students += 1
+
+            total_assigned_tasks = 0
+            tasks = db.query(Task).filter(Task.assigned_by == mentor_id).all()
+            total_fb_pv = sum(1 for t in tasks if t.feedback and t.feedback.strip() != "")
+            total_fb_rq = sum(1 for t in tasks if t.status == "completed" and (not t.feedback or t.feedback.strip() == ""))
+            for t in tasks:
+                total_assigned_tasks += 1 
+
     return templates.TemplateResponse(
         "mentor_dash.html", 
         {
@@ -62,7 +74,11 @@ def mentor_dash(request: Request, mentor_id: Optional[int] = Query(None), db: Se
                 }
                 for s in db.query(InternshipSupervision).filter(InternshipSupervision.mentor_id == mentor_id).all()
             ] if mentor_id else [],
-            "mentor_id": mentor_id,     
+            "mentor_id": mentor_id,  
+            "total_students": total_students, 
+            "total_assigned_tasks": total_assigned_tasks, 
+            "total_fb_pv": total_fb_pv,
+            "total_fb_rq": total_fb_rq,
         },
     )
 

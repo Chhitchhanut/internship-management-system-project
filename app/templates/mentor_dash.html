@@ -63,19 +63,19 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-blue-500">
             <div class="text-sm text-gray-500">Total Assigned Students</div>
-            <div class="mt-2 text-3xl font-semibold tracking-tight">12</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">{{ total_students }}</div>
           </div>
           <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-amber-500">
-            <div class="text-sm text-gray-500">Pending Tasks</div>
-            <div class="mt-2 text-3xl font-semibold tracking-tight">7</div>
+            <div class="text-sm text-gray-500">Total Assigned Tasks</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">{{ total_assigned_tasks }}</div>
           </div>
           <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-emerald-500">
-            <div class="text-sm text-gray-500">Completed Tasks</div>
-            <div class="mt-2 text-3xl font-semibold tracking-tight">34</div>
+            <div class="text-sm text-gray-500">Total Feedbacks Provide</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">{{ total_fb_pv }}</div>
           </div>
           <div class="rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md border-t-4 border-indigo-500">
             <div class="text-sm text-gray-500">Feedback Requests</div>
-            <div class="mt-2 text-3xl font-semibold tracking-tight">3</div>
+            <div class="mt-2 text-3xl font-semibold tracking-tight">{{ total_fb_rq }}</div>
           </div>
         </div>
       </section>
