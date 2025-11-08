@@ -2,6 +2,7 @@ from fastapi import APIRouter, Request, Depends, Query, Form, UploadFile, File, 
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
+from sqlalchemy.orm import joinedload
 from app.database.connection import get_db
 from datetime import datetime
 from app.database.models import User, Department, Task, InternshipSupervision
@@ -35,6 +36,34 @@ def mentor_dash(request: Request, mentor_id: Optional[int] = Query(None), db: Se
             supervisions = db.query(InternshipSupervision).filter(InternshipSupervision.mentor_id == mentor_id).all()
             for s in supervisions:
                 total_students += 1
+
+            # load student and internship in same query
+            act_intern = (
+                db.query(InternshipSupervision)
+                .options(joinedload(InternshipSupervision.student)
+                                .joinedload(User.department),
+                        joinedload(InternshipSupervision.internship))
+                .filter(InternshipSupervision.mentor_id == mentor_id)
+                .all()
+            )
+
+            rows = []
+            for s in act_intern:
+                student = s.student
+                internship = s.internship
+
+                row = {
+                    "supervision_id": s.id,
+                    "student_name": student.name if student else "Unassigned",
+                    "student_email": student.email if student else "N/A",
+                    "student_department": (student.department.name if (student and student.department) else "N/A"),
+                    "internship_title": internship.title if internship else "N/A",
+                    "internship_company": internship.company if internship else "N/A",
+                    "internship_start": internship.start_date.isoformat() if (internship and internship.start_date) else None,
+                    "internship_end": internship.end_date.isoformat() if (internship and internship.end_date) else None,
+                    "active": s.active,
+                }
+                rows.append(row)
 
             total_assigned_tasks = 0
             tasks = db.query(Task).filter(Task.assigned_by == mentor_id).all()
@@ -74,11 +103,13 @@ def mentor_dash(request: Request, mentor_id: Optional[int] = Query(None), db: Se
                 }
                 for s in db.query(InternshipSupervision).filter(InternshipSupervision.mentor_id == mentor_id).all()
             ] if mentor_id else [],
+            
             "mentor_id": mentor_id,  
             "total_students": total_students, 
             "total_assigned_tasks": total_assigned_tasks, 
             "total_fb_pv": total_fb_pv,
             "total_fb_rq": total_fb_rq,
+            "active_internships": rows,
         },
     )
 
