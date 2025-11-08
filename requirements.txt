@@ -1,0 +1,14 @@
+# Requirements for Internship Management System
+# Adjust versions as needed for your environment. These are minimal recommended packages.
+fastapi>=0.95.0
+uvicorn[standard]>=0.18.0
+sqlalchemy>=1.4.0
+jinja2>=3.0.0
+python-multipart>=0.0.6
+python-dotenv>=0.21.0
+# pydantic is a dependency of fastapi; include if you need explicit control
+pydantic>=1.10.0
+
+# Optional / recommended for production or improvements
+# passlib[bcrypt]>=1.7.4   # secure password hashing (replace SHA-256)
+#alembic>=1.8.0          # database migrations
