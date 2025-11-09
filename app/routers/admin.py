@@ -5,6 +5,7 @@ from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from sqlalchemy.exc import OperationalError
+from sqlalchemy.orm import joinedload
 import time
 import hashlib
 from datetime import datetime
@@ -55,6 +56,57 @@ def admin_dash(
             "active": sv.active,
             "scope_notes": sv.scope_notes,
         })
+
+        applications = (
+            db.query(Application)
+            .options(
+                joinedload(Application.student),     # load student relationship
+                joinedload(Application.internship)   # load internship relationship
+            )
+            .all()
+        )
+
+        application_list = [
+            {
+                "id": a.id,
+                "student_id": a.student_id,
+                "student_email": a.student.email if a.student else None,           # <-- added
+                "internship_id": a.internship_id,
+                "internship_title": a.internship.title if a.internship else None,  # <-- added
+                "status": a.status,
+                "student_cv_url": a.student.cv_url if a.student else None,
+            }
+            for a in applications
+        ]
+
+        tasks = (
+            db.query(Task)
+            .options(
+                joinedload(Task.student),                          # load student relationship
+                joinedload(Task.internship_sv).joinedload(         # load supervision -> internship
+                    InternshipSupervision.internship
+                )
+            )
+            .order_by(Task.created_at.desc().nullslast())
+            .all()
+        )
+
+        task_list = [
+            {
+                "id": t.id,
+                "title": t.title,
+                "internship_sv_id": t.supervision_id,
+                "internship_title": t.internship_sv.internship.title if t.internship_sv and t.internship_sv.internship else None,  # added
+                "student_id": t.student_id,
+                "student_email": t.student.email if t.student else None,  # added
+                "assigned_by": t.assigned_by,
+                "assigned_by_email": db.query(User).filter(User.id == t.assigned_by).first().email if db.query(User).filter(User.id == t.assigned_by).first() else None,  # added
+                "due_date": t.due_date,
+                "description": t.description,
+                "status": t.status,
+            }
+            for t in tasks
+        ]
 
     edit_supervision = None
     if edit is not None:
@@ -178,30 +230,8 @@ def admin_dash(
                 }
                 for i in internships
             ],
-            "applications": [
-                {
-                    "id": a.id,
-                    "student_id": a.student_id,
-                    "internship_id": a.internship_id,
-                    "status": a.status,
-                    "cv_url": a.cv_url or "",
-
-                }
-                for a in applications
-            ],
-            "tasks": [
-                {
-                    "id": t.id,
-                    "title": t.title,
-                    "internship_sv_id": t.supervision_id,
-                    "student_id": t.student_id,
-                    "assigned_by": t.assigned_by,
-                    "due_date": t.due_date,
-                    "description": t.description,
-                    "status": t.status,
-                }
-                for t in db.query(Task).order_by(Task.created_at.desc().nullslast()).all()
-            ],
+            "applications": application_list,
+            "tasks": task_list,
             "edit_internship": edit_intern_ctx,
             "search_email": search_email,
             "search_field": field_norm or None,
@@ -322,32 +352,45 @@ def admin_delete_internship(
     internship_id: int = Form(...),
     db: Session = Depends(get_db),
 ):
+    # Fetch the internship
     intern = db.query(Internship).filter(Internship.id == internship_id).first()
     if not intern:
         return RedirectResponse(url="/admin_dash#section-internships", status_code=status.HTTP_303_SEE_OTHER)
 
     try:
-        # Collect related tasks for cascading deletions
-        task_ids = [t.id for t in db.query(Task).filter(Task.internship_id == internship_id).all()]
+        # 1️ Delete related supervisions
+        supervisions = db.query(InternshipSupervision).filter(
+            InternshipSupervision.internship_id == internship_id
+        ).all()
+        supervision_ids = [s.id for s in supervisions]
+
+        # 2️ Delete tasks linked to these supervisions
+        tasks = db.query(Task).filter(Task.supervision_id.in_(supervision_ids)).all()
+        task_ids = [t.id for t in tasks]
 
         if task_ids:
-            # Delete feedback linked to task submissions for these tasks
+            # Delete feedback for task submissions
             sub_ids = [sid for (sid,) in db.query(TaskSubmission.id).filter(TaskSubmission.task_id.in_(task_ids)).all()]
             if sub_ids:
                 db.query(Feedback).filter(Feedback.task_submission_id.in_(sub_ids)).delete(synchronize_session=False)
                 db.query(TaskSubmission).filter(TaskSubmission.id.in_(sub_ids)).delete(synchronize_session=False)
+
             # Delete tasks
             db.query(Task).filter(Task.id.in_(task_ids)).delete(synchronize_session=False)
 
-        # Delete reports tied to the internship
+        # 3️ Delete reports tied to the internship
         db.query(Report).filter(Report.internship_id == internship_id).delete(synchronize_session=False)
-        # Delete applications for this internship
+
+        # 4️ Delete applications for this internship
         db.query(Application).filter(Application.internship_id == internship_id).delete(synchronize_session=False)
-        # Delete supervisions for this internship
+
+        # 5️ Delete supervisions
         db.query(InternshipSupervision).filter(InternshipSupervision.internship_id == internship_id).delete(synchronize_session=False)
-        # Finally delete the internship
+
+        # 6️ Finally delete the internship itself
         db.delete(intern)
 
+        # Commit with retry (optional)
         for attempt in range(5):
             try:
                 db.commit()
@@ -357,10 +400,12 @@ def admin_delete_internship(
                 time.sleep(0.2 * (attempt + 1))
         else:
             raise
-    except Exception:
+
+    except Exception as e:
         db.rollback()
-    
-    # Redirect back to postings table section
+        print("Failed to delete internship:", e)  # log exception
+
+    # Redirect back to admin dashboard
     return RedirectResponse(url="/admin_dash#section-internships", status_code=status.HTTP_303_SEE_OTHER)
 
 

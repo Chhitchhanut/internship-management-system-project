@@ -65,6 +65,36 @@ def mentor_dash(request: Request, mentor_id: Optional[int] = Query(None), db: Se
                 }
                 rows.append(row)
 
+            tasks = []
+            Tasks = (
+                db.query(Task)
+                .options(
+                    joinedload(Task.student),                                 # load student relationship
+                    joinedload(Task.internship_sv).joinedload(                # load supervision -> internship
+                        InternshipSupervision.internship
+                    )
+                )
+                .filter(Task.assigned_by == mentor_id)
+                .all()
+            )
+
+            for t in Tasks:
+                task = {
+                    "id": t.id,
+                    "title": t.title,
+                    "student_id": t.student_id,
+                    "student_email": t.student.email if t.student else None,
+                    "internship_sv_id": t.supervision_id,  
+                    "assigned_by": t.assigned_by,
+                    "due_date": t.due_date,
+                    "description": t.description,
+                    "status": t.status,
+                    "created_at": t.created_at,
+                    "feedback": t.feedback,
+                    "rating": t.rating,
+                }
+                tasks.append(task)
+
             total_assigned_tasks = 0
             tasks = db.query(Task).filter(Task.assigned_by == mentor_id).all()
             total_fb_pv = sum(1 for t in tasks if t.feedback and t.feedback.strip() != "")
@@ -78,22 +108,7 @@ def mentor_dash(request: Request, mentor_id: Optional[int] = Query(None), db: Se
             "request": request, 
             "user": user_ctx, 
             "departments": departments,
-            "tasks": [
-                {
-                    "id": t.id,
-                    "title": t.title,
-                    "internship_sv_id": t.supervision_id,
-                    "student_id": t.student_id,
-                    "assigned_by": t.assigned_by,
-                    "due_date": t.due_date,
-                    "description": t.description,
-                    "status": t.status,
-                    "created_at": t.created_at,
-                    "feedback": t.feedback,
-                    "rating": t.rating,
-                }
-                for t in db.query(Task).order_by(Task.created_at.desc().nullslast()).all()
-            ],
+            "tasks": tasks,
             "supervisions": [
                 {
                     "id": s.id  ,

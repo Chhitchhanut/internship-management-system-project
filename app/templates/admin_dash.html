@@ -339,10 +339,10 @@
               {%for a in applications %}
               <tr class="hover:bg-gray-50">
                 <td class="px-5 py-3">{{ a.id }}</td>
-                <td class="px-5 py-3">{{ a.student_id }}</td>
-                <td class="px-5 py-3">{{ a.internship_id }}</td>
+                <td class="px-5 py-3">{{ a.student_email }}</td>
+                <td class="px-5 py-3">{{ a.internship_title }}</td>
                 {% if a.cv_url %}
-                <td target="_blank" class="text-indigo-700 hover:underline"><a href="{{ a.cv_url }}">{{ a.cv_url }}</a></td>
+                <td target="_blank" class="text-indigo-700 hover:underline"><a href="{{ a.cv_url }}">{{ a.student_cv_url }}</a></td>
                 {% else %}
                 <td class="text-indigo-700 hover:underline"><p>No CV</p></td>
                 {% endif %}
@@ -474,8 +474,8 @@
                     <tr class="hover:bg-gray-50">
                       <td class="px-5 py-3">{{ t.id }}</td>
                       <td class="px-5 py-3">{{ t.title }}</td>
-                      <td class="px-5 py-3">{{ t.student_id }}</td>
-                      <td class="px-5 py-3">{{ t.assigned_by }}</td>
+                      <td class="px-5 py-3">{{ t.student_email }}</td>
+                      <td class="px-5 py-3">{{ t.assigned_by_email }}</td>
                       <td class="px-5 py-3">{{ t.due_date }}</td>
                       <td class="px-5 py-3">
                         <span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-700">Assigned</span>

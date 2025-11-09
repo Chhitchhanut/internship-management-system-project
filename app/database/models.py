@@ -117,6 +117,7 @@ class Task(Base):
     created_at = Column(TIMESTAMP)
     status = Column(String, default="assigned")  # assigned/in_progress/completed/overdue
 
+    student = relationship("User", foreign_keys=[student_id])
     internship_sv = relationship("InternshipSupervision", back_populates="tasks", foreign_keys=[supervision_id])
     assigned_by_user = relationship("User", back_populates="tasks_assigned", foreign_keys=[assigned_by])
 
